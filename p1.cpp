@@ -7,7 +7,7 @@ int main(int argc, char const *argv[])
 {
 	/* code */
 	//asdfasdf
-	int y = 89;
-	
+	int y = 69;
+
 	return 0;
 }
