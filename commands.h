@@ -1,16 +1,23 @@
-#ifndef Commands_H
-#define Commands_H
+#ifndef _commands_h_
+#define _commands_h_
 
 #include <iostream>
 #include <fstream>
 
 
 
-class commands
-{
+class Commands {
 public:
-	commands();
+    // CONSTRUCTORS:
+    commands();
 	~commands();
+	
+	// PRINTING:
+    // ACCESSORS:
+    // OTHER METHODS:
+	
+
+private:
 	
 };
 

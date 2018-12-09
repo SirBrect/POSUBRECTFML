@@ -1,13 +1,15 @@
 #include <iostream>
 #include <fstream>
 
+#include "regs.h"
+#include "commands.h"
+
 
 
 int main(int argc, char const *argv[])
 {
 	/* code */
-	//asdfasdf
-	int y = 69;
+
 
 	return 0;
 }
