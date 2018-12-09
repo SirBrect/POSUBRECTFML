@@ -9,10 +9,13 @@
 class Commands {
 public:
     // CONSTRUCTORS:
-    commands();
-	~commands();
+    Commands();
+	~Commands();
 	
 	// PRINTING:
+	// prints out commands in order
+	
+
     // ACCESSORS:
     // OTHER METHODS:
 	
