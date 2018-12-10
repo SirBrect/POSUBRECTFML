@@ -6,6 +6,18 @@
 #include <stdio.h>
 #include <iomanip>
 
+//defult construct
+Commands::Commands(){
+	std::string command_ = "null";
+	char type_ = 'x';
+	int id_ = 0;
+	std::vector<std::string> regs_;
+	command = command_;
+	regs = regs_;
+	type = type_;
+	id = id_;
+}
+
 // constructor for Command class
 Commands::Commands(std::string command_, std::vector<std::string> regs_, char type_, int id_) {
     command = command_;
@@ -16,9 +28,10 @@ Commands::Commands(std::string command_, std::vector<std::string> regs_, char ty
 
 // prints out command and cycleline
 void Commands::print_line() {
-    std::cout << setw(20) << command << " ";
+    std::cout << std::setw(20) << command << " ";
     for (int i = 0; i < cycle_line.size(); i++) {
-        std::cout << setw(4) << decoder(cycle_line[i]);
+        std::cout << std::setw(4); 
+        decoder(cycle_line[i]);
         if (i != cycle_line.size()-1) {
             std::cout << " ";
         }
@@ -39,25 +52,25 @@ void Commands::decoder(int num) {
     // 7 = *
 
     if (num == 0 || num == 6) {
-        std::cout << "." << std::endl;
+        std::cout << ".";
     }
     else if (num == 1) {
-        std::cout << "ID" << std::endl;
+        std::cout << "ID";
     }
     else if (num == 2) {
-        std::cout << "IF" << std::endl;
+        std::cout << "IF";
     }
     else if (num == 3) {
-        std::coutn << "EX" << std::endl;
+        std::cout << "EX";
     }
     else if (num == 4) {
-        std::cout << "MEM" << std::endl;
+        std::cout << "MEM";
     }
     else if (num == 5) {
-        std::cout << "WB" << std::endl;
+        std::cout << "WB";
     }
     else if (num == 7) {
-        std::cout << "*" << std::endl;
+        std::cout << "*";
     }
 
 }

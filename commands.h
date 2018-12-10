@@ -5,12 +5,14 @@
 #include <fstream>
 #include <string.h>
 #include <stdio.h>
+#include <vector>;
 
 
 
 class Commands {
 public:
     // CONSTRUCTORS:
+    Commands();
     Commands(std::string command_, std::vector<std::string> regs_, char type_, int id_);
 	// ~Commands();
 	
@@ -29,7 +31,7 @@ private:
     int dependency; // ID of command that this command is dependent on
     std::vector<std::string> regs; // registers that this command uses
     char type; // stores instructions type (R/I)
-    int id // ID tag for command line
+    int id; // ID tag for command line
     
 
 

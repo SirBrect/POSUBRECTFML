@@ -23,10 +23,10 @@ public:
 
 private:
     std::vector<std::string> s_regs; // S registers (strings)
-    std::vector<int> sreg_values // S register values
+    std::vector<int> sreg_values; // S register values
 
-    std::vector<string> t_regs; // T registers (strings)
-    std::vector<int> treg_values // T register values
+    std::vector<std::string> t_regs; // T registers (strings)
+    std::vector<int> treg_values; // T register values
 
 };
 

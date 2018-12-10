@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
 		}
 
 		linebuff;
-		Command Commands(std::string command_, int regs_, char type_, int id_)
+		//Command Commands(std::string command_, int regs_, char type_, int id_)
 
 	}
 

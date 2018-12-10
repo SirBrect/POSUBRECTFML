@@ -43,7 +43,7 @@ Registers::Registers() {
 void Registers::print_regs() {
     int mult = 0;
     for (int i = 0; i < 8; i++) {
-        std::cout << setw(6) << s_regs[i] << setw(14) << sreg_values[i];
+        std::cout << std::setw(6) << s_regs[i] << std::setw(14) << sreg_values[i];
         mult++;
         if (mult%4 == 0) {
             std::cout << std::endl;
@@ -51,7 +51,7 @@ void Registers::print_regs() {
     }
 
     for (int i = 0; i < 10; i++) {
-        std::cout << setw(6) << t_regs[i] << setw(14) << treg_values[i];
+        std::cout << std::setw(6) << t_regs[i] << std::setw(14) << treg_values[i];
         mult++;
         if (mult%4 == 0) {
             std::cout << std::endl;
