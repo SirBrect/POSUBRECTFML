@@ -15,10 +15,10 @@ public:
     Registers();
 
     // PRINTING:
-    // prints all the registers with their values
     void print_regs();
 
     // ACCESSORS:
+    
     // OTHER METHODS:
 
 private:
