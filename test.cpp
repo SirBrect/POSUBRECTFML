@@ -1,10 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include "regs.h"
-#include "commands.h"
+//#include "regs.h"
+//#include "commands.h"
 #include <string.h>
 #include <vector>
-
+#include <cstring>
 
 static int id;
 
@@ -12,7 +12,7 @@ static int id;
 int main(int argc, char const *argv[])
 {
 	// var_dicks-------------------------------------------------------------
-	std::vector<Commands> commanLines; //holds command objects for as many lines
+	std::vector<int> commanLines; //holds command objects for as many lines
 	bool forwarding = (*argv[1] == 'F'); //bool determinig forwording
 	std::string linebuff; 
 
@@ -27,7 +27,8 @@ int main(int argc, char const *argv[])
 	}
 
 	//file_reading--------------------------------------------------------------------
-	while(mipscode >> linebuff){
+	while(getline(mipscode,linebuff)){
+		//implement parsing here
 
 		std::string delimiter = " ";
 		size_t pos = 0;
@@ -37,17 +38,15 @@ int main(int argc, char const *argv[])
 		std::cout << token << std::endl;//assing here
 		linebuff.erase(0, pos + delimiter.length());
 		delimiter = ",";
-		if (token != "loop:")
-		{
-			while ((pos = linebuff.find(delimiter)) != std::string::npos) {
-		    	token = linebuff.substr(0, pos);
-		    	std::cout << token << std::endl;//assing here
-		    	linebuff.erase(0, pos + delimiter.length());
-			}
+		while ((pos = linebuff.find(delimiter)) != std::string::npos) {
+		    token = linebuff.substr(0, pos);
+		    std::cout << token << std::endl;//assing here
+		    linebuff.erase(0, pos + delimiter.length());
 		}
 
 		linebuff;
-		Command Commands(std::string command_, int regs_, char type_, int id_)
+		std::cout << linebuff << std::endl;
+		//Command Commands(std::string command_, int regs_, char type_, int id_)
 
 	}
 
