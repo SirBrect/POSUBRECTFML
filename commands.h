@@ -17,7 +17,7 @@ public:
 	// PRINTING:
 	// prints out command and cycleline
     void print_line();	
-    void cycleline_decoder(int num);
+    void decoder(int num);
 
     // ACCESSORS:
     // OTHER METHODS:

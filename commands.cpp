@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string.h>
 #include <stdio.h>
+#include <iomanip>
 
 Commands::Commands(std::string command_, std::vector<std::string> regs_, char type_, int id_) {
     command = command_;
@@ -13,10 +14,14 @@ Commands::Commands(std::string command_, std::vector<std::string> regs_, char ty
 }
 
 Commands::print_line() {
-    std::cout << command;
+    std::cout << setw(20) << command;
+    for (int i = 0; i < cycle_line.size(); i++) {
+        std::cout << setw(4) << decoder(cycle_line[i]);
+    }
+    std::cout << std::endl;
 }
 
-Commands::cycleline_decoder(int num) {
+Commands::decoder(int num) {
     // KEY:
     // 0 = .
     // 1 = ID
