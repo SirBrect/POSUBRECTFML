@@ -19,6 +19,8 @@ int main(int argc, char const *argv[])
 	{
 		std::cerr << "Cannot Read FILE PAT!" << std::endl;
 	}
+
+	
 	
 
 
