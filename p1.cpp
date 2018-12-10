@@ -23,8 +23,13 @@ int main(int argc, char const *argv[])
 	{
 		std::cerr << "Cannot Read FILE PAT!" << std::endl;
 	}
+
+	//file_reading--------------------------------------------------------------------
 	while(mipscode >> linebuff){
 		//implement parsing here
+		linebuff;
+		Command Commands(std::string command_, int regs_, char type_, int id_)
+
 	}
 
 
