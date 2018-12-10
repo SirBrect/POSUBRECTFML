@@ -11,12 +11,12 @@
 class Commands {
 public:
     // CONSTRUCTORS:
-    Commands();
-	~Commands();
+    Commands(std::string command_, int regs_, char type_, int id_);
+	// ~Commands();
 	
 	// PRINTING:
 	// prints out command and cycleline
-    void print_line();	
+    // void print_line();	
 
     // ACCESSORS:
     // OTHER METHODS:

@@ -8,7 +8,7 @@ static int id;
 
 int main(int argc, char const *argv[])
 {
-	//var dicks-------------------------------------------------------------
+	// var dicks-------------------------------------------------------------
 	std::commands;
 	bool forwarding = (*argv[1] == 'F');
 	if (argc > 3){
