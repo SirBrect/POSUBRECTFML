@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
 	}
 
 	//file_reading--------------------------------------------------------------------
-	while(mipscode >> linebuff){
+	while(getline(mipscode,linebuff)){
 
 		std::string delimiter = " ";
 		size_t pos = 0;
