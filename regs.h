@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string.h>
+#include <stdio.h>
 #include <cstring>
 
 class Registers {
@@ -19,7 +21,7 @@ public:
     // OTHER METHODS:
 
 private:
-    std::vector<string> s_regs; // S registers (strings)
+    std::vector<std::string> s_regs; // S registers (strings)
     std::vector<int> sreg_values // S register values
 
     std::vector<string> t_regs; // T registers (strings)
