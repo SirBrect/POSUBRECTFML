@@ -15,7 +15,6 @@ public:
 	// ~Commands();
 	
 	// PRINTING:
-	// prints out command and cycleline
     void print_line();	
     void decoder(int num);
 

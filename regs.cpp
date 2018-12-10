@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <iomanip>
 
-// constructor for register class
+// constructor for Registers class
 Registers::Registers() {
     // push back s register titles
     s_regs.push_back("$s0 = ");
@@ -39,6 +39,7 @@ Registers::Registers() {
     }
 }
 
+// prints registers and their values in columns of 4
 void Registers::print_regs() {
     int mult = 0;
     for (int i = 0; i < 8; i++) {

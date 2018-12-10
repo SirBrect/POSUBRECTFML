@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <iomanip>
 
+// constructor for Command class
 Commands::Commands(std::string command_, std::vector<std::string> regs_, char type_, int id_) {
     command = command_;
     regs = regs_;
@@ -13,6 +14,7 @@ Commands::Commands(std::string command_, std::vector<std::string> regs_, char ty
     id = id_;
 }
 
+// prints out command and cycleline
 void Commands::print_line() {
     std::cout << setw(20) << command << " ";
     for (int i = 0; i < cycle_line.size(); i++) {
@@ -24,6 +26,7 @@ void Commands::print_line() {
     std::cout << std::endl;
 }
 
+// decodes cycle_line into proper instructions
 void Commands::decoder(int num) {
     // KEY:
     // 0 = .
