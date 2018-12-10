@@ -13,15 +13,18 @@ Commands::Commands(std::string command_, std::vector<std::string> regs_, char ty
     id = id_;
 }
 
-Commands::print_line() {
-    std::cout << setw(20) << command;
+void Commands::print_line() {
+    std::cout << setw(20) << command << " ";
     for (int i = 0; i < cycle_line.size(); i++) {
         std::cout << setw(4) << decoder(cycle_line[i]);
+        if (i != cycle_line.size()-1) {
+            std::cout << " ";
+        }
     }
     std::cout << std::endl;
 }
 
-Commands::decoder(int num) {
+void Commands::decoder(int num) {
     // KEY:
     // 0 = .
     // 1 = ID
