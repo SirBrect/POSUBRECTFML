@@ -20,14 +20,13 @@ public:
     void print_line();	
     void decoder(int num);
 
-    // GETTERS:
+    // GETTERS (ACCESSORS):
     std::string getCommand() {return command;}
     std::vector<int> &getCycle_line() {return cycle_line;}
     int getDependency(){return dependency;}
     std::vector<std::string> &getRegs() {return regs;}
     char getType(){return type;}
     int getID(){return id;}
-
 
     // SETTERS:
     void setCommand(std::string command_);

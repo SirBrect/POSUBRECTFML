@@ -18,7 +18,7 @@ public:
     void print_regs();
 
     // ACCESSORS:
-    
+
     // OTHER METHODS:
 
 private:

@@ -11,14 +11,14 @@
 
 int main(int argc, char const *argv[])
 {
-	// var_dicks-------------------------------------------------------------
+	//variable_declarations------------------------------------------------------------
 	std::vector<Commands> commandLines; //holds command objects for as many lines
 	bool forwarding = (*argv[1] == 'F'); //bool determinig forwording
 	std::string linebuff; 
 	int id = 0;
 	unsigned int i = 0,j = 0;
 
-	//argument_checking-----------------------------------------------------
+	//argument_checking----------------------------------------------------------------
 	if (argc > 3){
 		std::cerr << "Invalid Arguments PAT!" << std::endl;
 	}
@@ -35,8 +35,8 @@ int main(int argc, char const *argv[])
 		size_t pos = 0;
 		std::string token;
 		pos = linebuff.find(delimiter);
-		token = linebuff.substr(0, pos); //grap the command portion from read file
-		std::cout << token << std::endl;//assing here
+		token = linebuff.substr(0, pos); //grab the command portion from read file
+		std::cout << token << std::endl;//assign here
 		linebuff.erase(0, pos + delimiter.length());
 		Commands commandline;
 		commandline.setCommand(token); //set command portion
@@ -82,8 +82,8 @@ int main(int argc, char const *argv[])
 	std::cout << "CPU Cycles ===>	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16" << std::endl;
 
 
-	//does the incromentation
-	// prints register contents
+	//does the incrementation
+	//prints register contents
 
 	
 

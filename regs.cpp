@@ -19,16 +19,16 @@ Registers::Registers() {
     s_regs.push_back("$s7 = ");   
 
     // push back t register titles
-    t_regs.push_back("$s0 = ");
-    t_regs.push_back("$s1 = ");
-    t_regs.push_back("$s2 = ");
-    t_regs.push_back("$s3 = ");
-    t_regs.push_back("$s4 = ");
-    t_regs.push_back("$s5 = ");
-    t_regs.push_back("$s6 = ");
-    t_regs.push_back("$s7 = ");
-    t_regs.push_back("$s8 = ");
-    t_regs.push_back("$s9 = ");
+    t_regs.push_back("$t0 = ");
+    t_regs.push_back("$t1 = ");
+    t_regs.push_back("$t2 = ");
+    t_regs.push_back("$t3 = ");
+    t_regs.push_back("$t4 = ");
+    t_regs.push_back("$t5 = ");
+    t_regs.push_back("$t6 = ");
+    t_regs.push_back("$t7 = ");
+    t_regs.push_back("$t8 = ");
+    t_regs.push_back("$t9 = ");
 
     // initialize all registers to 0
     for (int i = 0; i < 8; i++) {
