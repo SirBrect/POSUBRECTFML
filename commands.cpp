@@ -9,13 +9,24 @@
 //defult construct
 Commands::Commands(){
 	std::string command_ = "null";
+	std::vector<int> cycle_line_;
+	int dependency_ = 0;
+	std::vector<std::string> regs_;
 	char type_ = 'x';
 	int id_ = 0;
-	std::vector<std::string> regs_;
+
+
 	command = command_;
+	cycle_line = cycle_line_;
+	dependency = dependency_;
 	regs = regs_;
 	type = type_;
 	id = id_;
+
+	for (int i = 0; i < 16; ++i)
+	{
+		cycle_line.push_back(0);
+	}
 }
 
 // constructor for Command class
@@ -29,7 +40,7 @@ Commands::Commands(std::string command_, std::vector<std::string> regs_, char ty
 // prints out command and cycleline
 void Commands::print_line() {
     std::cout << std::setw(20) << command << " ";
-    for (int i = 0; i < cycle_line.size(); i++) {
+    for (unsigned int i = 0; i < cycle_line.size(); i++) {
         std::cout << std::setw(4); 
         decoder(cycle_line[i]);
         if (i != cycle_line.size()-1) {
@@ -73,4 +84,23 @@ void Commands::decoder(int num) {
         std::cout << "*";
     }
 
+}
+
+//setters----------------------------------------------
+void Commands::setCommand(std::string command_){
+	command = command_;
+}
+void Commands::setDependency(int dependency_){
+	dependency = dependency_;
+}
+void Commands::setType(char type_){
+	type = type_;
+}
+
+void Commands::setID(int id_){
+	id = id_;
+}
+
+void Commands::addRegs(std::string reg){
+	regs.push_back(reg);
 }

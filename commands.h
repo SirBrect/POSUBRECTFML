@@ -5,7 +5,7 @@
 #include <fstream>
 #include <string.h>
 #include <stdio.h>
-#include <vector>;
+#include <vector>
 
 
 
@@ -20,7 +20,27 @@ public:
     void print_line();	
     void decoder(int num);
 
-    // ACCESSORS:
+    // GETTERS:
+    std::string getCommand() {return command;}
+    std::vector<int> &getCycle_line() {return cycle_line;}
+    int getDependency(){return dependency;}
+    std::vector<std::string> &getRegs() {return regs;}
+    char getType(){return type;}
+    int getID(){return id;}
+
+
+    // SETTERS:
+    void setCommand(std::string command_);
+  	void setDependency(int dependency_);
+  	void addRegs(std::string reg);
+  	void setType(char type_);
+  	void setID(int id_);
+ 
+
+
+    void Addkmer(std::string kmer, unsigned int genomeindex);
+
+
 
     // OTHER METHODS:
 	
