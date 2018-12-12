@@ -17,6 +17,7 @@ int main(int argc, char const *argv[])
 	std::string linebuff; 
 	int id = 0;
 	unsigned int i = 0,j = 0;
+	Registers regs;
 
 	//argument_checking----------------------------------------------------------------
 	if (argc > 3){
@@ -78,14 +79,15 @@ int main(int argc, char const *argv[])
 	else{
 		std::cout << " (forwarding)" << std::endl;
 	}
-	std::cout << "--------------------------------------------------------------------------------" << std::endl;
+	std::cout << "------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 	std::cout << "CPU Cycles ===>	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16" << std::endl;
 
 
-	//does the incrementation
-	//prints register contents
+	//does the incromentation
+	// prints register contents
+	//regs.print_regs();
 
-	
+
 
 	
 
