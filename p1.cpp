@@ -15,7 +15,8 @@ int main(int argc, char const *argv[])
 	std::vector<Commands> commandLines; //holds command objects for as many lines
 	bool forwarding = (*argv[1] == 'F'); //bool determinig forwording
 	std::string linebuff; 
-	int id = 0,i = 0;
+	int id = 0;
+	unsigned int i = 0,j = 0;
 
 	//argument_checking-----------------------------------------------------
 	if (argc > 3){
@@ -49,6 +50,7 @@ int main(int argc, char const *argv[])
 		    	linebuff.erase(0, pos + delimiter.length());
 		    	commandline.addRegs(token); // add to commandlineobj reg storage
 			}
+			commandline.addRegs(linebuff);
 		}
 		commandline.setID(id);
 		commandLines.push_back(commandline); //add to overall commandlines vector
@@ -60,14 +62,30 @@ int main(int argc, char const *argv[])
 	for (i = 0; i < commandLines.size(); ++i)
 	{
 		std::cout << "commmand: " << commandLines[i].getCommand() << " ~registers ";
-		for (int j = 0; j < commandLines[j].getRegs().size(); ++j)
+		for (j = 0; j < commandLines[j].getRegs().size(); ++j)
 		{
 			std::cout << commandLines[i].getRegs()[j] << " ";
 		}
 		std::cout << " Id: " << commandLines[i].getID() << std::endl;
 	}
 
+	//Program run --------------------------------------------------------------------------
+	std::cout << "START OF SIMULATION";
+	if (forwarding)
+	{
+		std::cout << " (no forwarding)" << std::endl;
+	}
+	else{
+		std::cout << " (forwarding)" << std::endl;
+	}
+	std::cout << "--------------------------------------------------------------------------------" << std::endl;
+	std::cout << "CPU Cycles ===>	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16" << std::endl;
 
+
+	//does the incromentation
+	// prints register contents
+
+	
 
 	
 
