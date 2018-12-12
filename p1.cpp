@@ -6,8 +6,9 @@
 #include <vector>
 
 
-
-
+void cycleIncroment(){
+	
+}
 
 int main(int argc, char const *argv[])
 {
