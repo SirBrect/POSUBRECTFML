@@ -8,6 +8,18 @@
 
 // constructor for Registers class
 Registers::Registers() {
+
+    std::vector<std::string> s_regs_; // S registers (strings)
+    std::vector<int> sreg_values_; // S register values
+
+    std::vector<std::string> t_regs_; // T registers (strings)
+    std::vector<int> treg_values_; // T register values
+
+    s_regs = s_regs_;
+    sreg_values = sreg_values_;
+    t_regs = t_regs_;
+    treg_values = treg_values_;
+
     // push back s register titles
     s_regs.push_back("$s0 = ");
     s_regs.push_back("$s1 = ");
