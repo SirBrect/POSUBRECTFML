@@ -68,7 +68,7 @@ int main(int argc, char const *argv[])
 		commandline.setCommand(token); //set command portion
 
 		delimiter = ",";
-		if (token != "loop:") //if command has registers add them to tis register vector
+		if (token != "loop:") //if command has registers add them to this register vector
 		{
 			while ((pos = linebuff.find(delimiter)) != std::string::npos) {
 		    	token = linebuff.substr(0, pos);
@@ -111,10 +111,10 @@ int main(int argc, char const *argv[])
 	for (i = 0; i < 16; ++i) //for the 16 cycles
 	{
 		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
-		std::cout << "CPU Cycles ===>	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16" << std::endl;
+		std::cout << "CPU Cycles ===>   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) //for each row
 		{
-			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by collum
+			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column // >> NOTE TO BRYCE: IT'S "INCREMENT" not "INCROMENT" & "COLUMN" not "COLLUM"
 			commandLines[j].print_line();
 			std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
 

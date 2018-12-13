@@ -54,10 +54,12 @@ Registers::Registers() {
 // prints registers and their values in columns of 4
 void Registers::print_regs() {
     int mult = 0;
+
+    std::cout << std::endl;
+
     for (int i = 0; i < 8; i++) {
         std::cout << std::setw(6) << s_regs[i] << std::left << std::setw(14) << sreg_values[i];
         mult++;
-        // std::cout << s_regs[i] << sreg_values[i] << std::endl;
         if (mult%4 == 0) {
             std::cout << std::endl;
         }
@@ -66,7 +68,6 @@ void Registers::print_regs() {
     for (int i = 0; i < 10; i++) {
         std::cout << std::setw(6) << t_regs[i] << std::left << std::setw(14) << treg_values[i];
         mult++;
-        // std::cout << t_regs[i] << treg_values[i] << std::endl;
         if (mult%4 == 0) {
             std::cout << std::endl;
         }

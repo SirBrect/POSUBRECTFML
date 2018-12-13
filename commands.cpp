@@ -41,13 +41,13 @@ Commands::Commands(std::string command_, std::vector<std::string> regs_, char ty
 
 // prints out command and cycleline
 void Commands::print_line() {
-    std::cout << std::setw(20) << command << " ";
+    std::cout << std::left << std::setw(20) << command << " ";
     for (unsigned int i = 0; i < cycle_line.size(); i++) {
-        std::cout << std::setw(4); 
+        std::cout << std::left << std::setw(4); 
         decoder(cycle_line[i]);
-        if (i != cycle_line.size()-1) {
-            std::cout << " ";
-        }
+        // if (i != cycle_line.size()-1) {
+        //     std::cout << " ";
+        // }
     }
     std::cout << std::endl;
 }
