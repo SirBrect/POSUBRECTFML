@@ -15,6 +15,7 @@ Commands::Commands(){
 	char type_ = 'x';
 	int id_ = 0;
 	int delay_ = 0;
+	bool done_ = false;
 
 
 	command = command_;
@@ -24,6 +25,7 @@ Commands::Commands(){
 	type = type_;
 	id = id_;
 	delay = delay_; 
+	done = done_;
 
 	for (int i = 0; i < 16; ++i)
 	{
@@ -116,4 +118,8 @@ void Commands::setCycle_line(int index, int val){
 
 void Commands::setWholeCommand(std::string wholeCommand_){
 	wholeCommand = wholeCommand_;
+}
+
+void Commands::setDone(bool done_){
+	done = done_;
 }
