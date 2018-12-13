@@ -28,6 +28,7 @@ public:
     char getType() {return type;}
     int getID() {return id;}
     int getDelay() {return delay;}
+    std::string getWholeCommand() {return wholeCommand;}
 
     // SETTERS:
     void setCommand(std::string command_);
@@ -39,11 +40,6 @@ public:
   	void setCycle_line(int index, int val);
     void setWholeCommand(std::string wholeCommand_);
  
-
-
-    void Addkmer(std::string kmer, unsigned int genomeindex);
-
-
 
     // OTHER METHODS:
 	
