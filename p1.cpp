@@ -6,13 +6,13 @@
 #include <vector>
 
 
-void cycleIncroment(std::vector<Commands> &commandLines,bool forwarding , int row , int cycle){
+void cycleIncrement(std::vector<Commands> &commandLines,bool forwarding , int row , int cycle){
 	int intstore = 0;
 	if (row <= cycle) 
 	{
 		//std::cout << "this is instore before: " << intstore << std::endl; //test print
 		intstore = commandLines[row].getCycle_line()[cycle];
-		if (cycle == 0 ) //if its the first index incroment
+		if (cycle == 0 ) //if its the first index increment
 		{
 			intstore++;
 		}
@@ -42,7 +42,7 @@ int main(int argc, char const *argv[])
 	std::string linebuff; 
 	int id = 0;
 	unsigned int i = 0,j = 0;
-	//Registers regs;
+	Registers regs;
 
 	//argument_checking----------------------------------------------------------------
 	if (argc > 3){
@@ -107,28 +107,26 @@ int main(int argc, char const *argv[])
 	
 
 
-	//does the incromentation
-	for (i = 0; i < 16; ++i) //  for the 16 cycles
+	//does the incrementation
+	for (i = 0; i < 16; ++i) //for the 16 cycles
 	{
 		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>	1	2	3	4	5	6	7	8	9	10	11	12	13	14	15	16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) //for each row
 		{
-			cycleIncroment(commandLines,forwarding,j,i); //incroment cycle by collum
+			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by collum
 			commandLines[j].print_line();
 			std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
 
 		}
 		//prints register contents
-		//regs.print_regs();
+		regs.print_regs();
 	}
 
 
 
 
 	
-
-
 
 	return 0;
 }

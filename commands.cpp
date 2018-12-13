@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <iomanip>
 
-//defult construct
+//default constructer
 Commands::Commands(){
 	std::string command_ = "null";
 	std::vector<int> cycle_line_;

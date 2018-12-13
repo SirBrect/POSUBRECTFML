@@ -2,9 +2,9 @@
 
 #include <iostream>
 #include <fstream>
-#include <string.h>
 #include <stdio.h>
 #include <iomanip>
+#include <string>
 
 // constructor for Registers class
 Registers::Registers() {
@@ -15,7 +15,7 @@ Registers::Registers() {
     std::vector<std::string> t_regs_; // T registers (strings)
     std::vector<int> treg_values_; // T register values
 
-    s_regs = s_regs_;
+    s_regs = s_regs_;    
     sreg_values = sreg_values_;
     t_regs = t_regs_;
     treg_values = treg_values_;
@@ -44,10 +44,10 @@ Registers::Registers() {
 
     // initialize all registers to 0
     for (int i = 0; i < 8; i++) {
-        sreg_values[i] = 0;
+        sreg_values.push_back(0);
     }
     for (int i = 0; i < 10; i++) {
-        treg_values[i] = 0;
+        treg_values.push_back(0);
     }
 }
 
@@ -55,19 +55,22 @@ Registers::Registers() {
 void Registers::print_regs() {
     int mult = 0;
     for (int i = 0; i < 8; i++) {
-        std::cout << std::setw(6) << s_regs[i] << std::setw(14) << sreg_values[i];
+        std::cout << std::setw(6) << s_regs[i] << std::left << std::setw(14) << sreg_values[i];
         mult++;
+        // std::cout << s_regs[i] << sreg_values[i] << std::endl;
         if (mult%4 == 0) {
             std::cout << std::endl;
         }
     }
 
     for (int i = 0; i < 10; i++) {
-        std::cout << std::setw(6) << t_regs[i] << std::setw(14) << treg_values[i];
+        std::cout << std::setw(6) << t_regs[i] << std::left << std::setw(14) << treg_values[i];
         mult++;
+        // std::cout << t_regs[i] << treg_values[i] << std::endl;
         if (mult%4 == 0) {
             std::cout << std::endl;
         }
     }
+    std::cout << std::endl;
 }
 
