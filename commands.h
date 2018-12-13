@@ -28,6 +28,7 @@ public:
     char getType() {return type;}
     int getID() {return id;}
     int getDelay() {return delay;}
+    std::string getWholeCommand() {return wholeCommand;}
     bool getDone() {return done;}
 
     // SETTERS:
@@ -41,6 +42,9 @@ public:
     void setWholeCommand(std::string wholeCommand_);
     void setDone(bool done);
  
+
+
+    void Addkmer(std::string kmer, unsigned int genomeindex);
 
 
 

@@ -1,10 +1,14 @@
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include "regs.h"
 #include "commands.h"
 #include <string>
 #include <vector>
 
+void controlHazardCheck(Commands cmmd, ) {
+	
+}
 
 void nopInsert(){
 
@@ -42,7 +46,7 @@ void cycleIncrement(std::vector<Commands> &commandLines,bool forwarding , int ro
 			intstore = commandLines[row].getCycle_line()[cycle-1]; 
 			commandLines[row].setDelay((commandLines[row].getDelay() -1)); 
 		}
-		else if (commandLines[row].getCycle_line()[cycle-1] < 6) //else grab the one prev and incromet it as one 
+		else if (commandLines[row].getCycle_line()[cycle-1] < 6) //else grab the one prev and increment it as one 
 		{
 			intstore = 1 + commandLines[row].getCycle_line()[cycle-1];
 		}
@@ -67,7 +71,7 @@ int main(int argc, char const *argv[])
 	Registers regs;
 	int nops = 0;
 
-	//argument_checking----------------------------------------------------------------
+	//ERROR CHECKING----------------------------------------------------------------------
 	if (argc > 3){
 		std::cerr << "Invalid Arguments PAT!" << std::endl;
 	}
@@ -77,7 +81,7 @@ int main(int argc, char const *argv[])
 		std::cerr << "Cannot Read FILE PAT!" << std::endl;
 	}
 
-	//file_reading--------------------------------------------------------------------
+	//FILE READING-------------------------------------------------------------------------
 	while(getline(mipscode,linebuff)) {
 
 		Commands commandline;
@@ -87,10 +91,10 @@ int main(int argc, char const *argv[])
 		size_t pos = 0;
 		std::string token;
 		pos = linebuff.find(delimiter);
-		token = linebuff.substr(0, pos); //grab the command portion from read file
-		std::cout << token << std::endl;//assign here
+		token = linebuff.substr(0, pos); 		//grab the command portion from read file
+		// std::cout << token << std::endl;		//assign here
 		linebuff.erase(0, pos + delimiter.length());
-		commandline.setCommand(token); //set command portion
+		commandline.setCommand(token); 			//set command portion
 
 		delimiter = ",";
 		if (token != "loop:") { //if command has registers add them to this register vector
@@ -103,14 +107,15 @@ int main(int argc, char const *argv[])
 			commandline.addRegs(linebuff);
 			// std::cout << linebuff << std::endl;
 		}
+
 		commandline.setID(id);
 		commandLines.push_back(commandline); //add to overall commandlines vector
 		id++;
 	}
 
 
-	//test print-------------------------------------------
-	// std::cout << "here are all the commands given and their atributes" <<std::endl;
+	//TEST PRINT---------------------------------------------------------------------------
+	// std::cout << "here are all the commands given and their attributes" <<std::endl;
 	// for (i = 0; i < commandLines.size(); ++i) {
 	// 	std::cout << "commmand: " << commandLines[i].getCommand() << " ~registers ";
 	// 	for (j = 0; j < commandLines[j].getRegs().size(); ++j) {
@@ -119,7 +124,15 @@ int main(int argc, char const *argv[])
 	// 	std::cout << " Id: " << commandLines[i].getID() << std::endl;
 	// }
 
-	//Program run --------------------------------------------------------------------------
+	// for (i = 0; i < commandLines.size(); ++i) {
+	// 	std::cout << commandLines[i].getWholeCommand() << std::endl;
+	// }
+
+	//ASSIGN DEPENDENCIES -------------------------------------------------------------------
+	//TO DO: read through vector of commands, assign dependencies
+	//TO DO: test print of dependencies "CMMD ID # is dependent on CMMD ID #"
+
+	//PROGRAM RUN --------------------------------------------------------------------------
 	std::cout << "START OF SIMULATION";
 	if (forwarding) {
 		std::cout << " (forwarding)" << std::endl;
@@ -128,7 +141,7 @@ int main(int argc, char const *argv[])
 		std::cout << " (no forwarding)" << std::endl;
 	}
 	
-	//does the incrementation
+	//incrementation
 	for (i = 0; i < 16; ++i) { //for the 16 cycles
 		if (finished_cmmds == commandLines.size()) {
 			break;
@@ -157,12 +170,15 @@ int main(int argc, char const *argv[])
 
 			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column // >> NOTE TO BRYCE: IT'S "INCREMENT" not "INCROMENT" & "COLUMN" not "COLLUM"
 			if (commandLines[j].getCycle_line()[i] != 0) {
+				// std::cout << "PRINT LINE" << std::endl;
+				// std::cout << std::left << std::setw(20) << commandLines[j].getWholeCommand();
 				commandLines[j].print_line();	
 			}
-			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) { //put values into the regsiters
-				//regs.setRegValue(commandLines[j].getRegs()[0],std::stoi(commandLines[j].getRegs()[2]));
+			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
+				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
 
 			}
+			//if command is finished, add to number of finished commands
 			if (commandLines[j].getCycle_line()[i] == 5) {
 				finished_cmmds++;	
 			}
