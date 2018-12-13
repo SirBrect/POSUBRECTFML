@@ -73,11 +73,12 @@ int main(int argc, char const *argv[])
 		if (token != "loop:") { //if command has registers add them to this register vector
 			while ((pos = linebuff.find(delimiter)) != std::string::npos) {
 		    	token = linebuff.substr(0, pos);
-		    	std::cout << token << std::endl;	//assign here
+		    	// std::cout << token << std::endl;	//assign here
 		    	linebuff.erase(0, pos + delimiter.length());
 		    	commandline.addRegs(token);			//add to commandlineobj reg storage
 			}
 			commandline.addRegs(linebuff);
+			// std::cout << linebuff << std::endl;
 		}
 		commandline.setID(id);
 		commandLines.push_back(commandline); //add to overall commandlines vector
@@ -112,8 +113,15 @@ int main(int argc, char const *argv[])
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
 			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column // >> NOTE TO BRYCE: IT'S "INCREMENT" not "INCROMENT" & "COLUMN" not "COLLUM"
-			commandLines[j].print_line();
-			std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
+			if (commandLines[j].getCycle_line()[i] != 0) {
+				commandLines[j].print_line();	
+			}
+			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
+				// std::cout << "CHANGE REG" << std::endl;
+				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
+
+			}
+			// std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
 		}
 		//prints register contents
 		regs.print_regs();

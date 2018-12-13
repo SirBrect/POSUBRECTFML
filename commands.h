@@ -23,11 +23,11 @@ public:
     // GETTERS (ACCESSORS):
     std::string getCommand() {return command;}
     std::vector<int> &getCycle_line() {return cycle_line;}
-    int getDependency(){return dependency;}
+    int getDependency() {return dependency;}
     std::vector<std::string> &getRegs() {return regs;}
-    char getType(){return type;}
-    int getID(){return id;}
-    int getDelay(){return delay;}
+    char getType() {return type;}
+    int getID() {return id;}
+    int getDelay() {return delay;}
 
     // SETTERS:
     void setCommand(std::string command_);
@@ -52,7 +52,7 @@ private:
     std::string command;                // stores the MIPS command line
     std::string wholeCommand;           // stores MIPS command line with all the registers for easy printing
     std::vector<int> cycle_line;        // stores the cycle instructions for all cycles
-    int dependency;                      // ID of command that this command is dependent on
+    int dependency;                     // ID of command that this command is dependent on
     std::vector<std::string> regs;      // registers that this command uses
     char type;                          // stores instructions type (R/I)
     int id;                             // ID tag for command line
