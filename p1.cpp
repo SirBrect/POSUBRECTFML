@@ -6,12 +6,19 @@
 #include <string>
 #include <vector>
 
+/*
 void controlHazardCheck(Commands cmmd, ) {
 	
 }
 
-void nopInsert(){
-
+*/
+void nopInsert(std::vector<Commands> &commandLines, int row, int cycle,int nops){
+	Commands nopline;
+	nopline.setCommand("nop");
+	commandLines[row].setDelay(nops);
+	std::vector<Commands>::iterator it = commandLines.begin();
+	it = it + row;
+	it =  commandLines.insert(it,nopline);
 }
 
 int nopCheck(std::vector<Commands> &commandLines, int row, int cycle){//checks two behind for data nop insert
@@ -164,9 +171,13 @@ int main(int argc, char const *argv[])
 					nops = nopCheck(commandLines,j,i);// check and set nops
 				}
 			}
-			//nops insert-----------------------------------------------------------------------------------------------------------
+			//nops insert----------------------------------------------------------------------------------------------------------
+			if (nops > 0)
+			{
+				nopInsert(commandLines,j,i,nops);
+			}
 
-			//incroment----------------------------------------------------------------------------------------------------------
+			//incroment------------------------------------------------------------------------------------------------------------
 
 			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column // >> NOTE TO BRYCE: IT'S "INCREMENT" not "INCROMENT" & "COLUMN" not "COLLUM"
 			if (commandLines[j].getCycle_line()[i] != 0) {
@@ -175,7 +186,7 @@ int main(int argc, char const *argv[])
 				commandLines[j].print_line();	
 			}
 			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
-				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
+				//regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
 
 			}
 			//if command is finished, add to number of finished commands
