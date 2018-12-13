@@ -41,6 +41,7 @@ int main(int argc, char const *argv[])
 	bool forwarding = (*argv[1] == 'F'); //bool determinig forwording
 	std::string linebuff; 
 	int id = 0;
+	unsigned int finished_cmmds = 0;
 	unsigned int i = 0,j = 0;
 	Registers regs;
 
@@ -109,6 +110,9 @@ int main(int argc, char const *argv[])
 
 	//does the incrementation
 	for (i = 0; i < 16; ++i) { //for the 16 cycles
+		if (finished_cmmds == commandLines.size()) {
+			break;
+		}
 		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
@@ -117,9 +121,11 @@ int main(int argc, char const *argv[])
 				commandLines[j].print_line();	
 			}
 			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
-				// std::cout << "CHANGE REG" << std::endl;
 				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
 
+			}
+			if (commandLines[j].getCycle_line()[i] == 5) {
+				finished_cmmds++;	
 			}
 			// std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
 		}

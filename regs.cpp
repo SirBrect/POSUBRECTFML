@@ -75,15 +75,14 @@ void Registers::print_regs() {
     std::cout << std::endl;
 }
 
+// updates given register with inputed value
 void Registers::setRegValue(std::string rd, int input) {
     int index = rd[2] - '0';
 
     if (rd[1] == 's') {
-        // std::cout << "S REG" << rd[2] << std::endl;
         sreg_values[index] = input;
     }
     else if (rd[1] == 't') {
-        // std::cout << "T REG" << rd[2] << std::endl;
         treg_values[index] = input;
     }
 }
