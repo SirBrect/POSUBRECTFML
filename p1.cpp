@@ -25,7 +25,7 @@ void cycleIncroment(std::vector<Commands> &commandLines,bool forwarding , int ro
 		{
 			intstore = 1 + commandLines[row].getCycle_line()[cycle-1];
 		}
-		else{
+		else{ // this doesnt need to be here but watev
 			intstore = 6;
 		}
 
