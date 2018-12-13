@@ -138,21 +138,21 @@ int main(int argc, char const *argv[])
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
 
 			//nops check------------------------------------------------------------------------------------------------------------
-			if (i != 0 && commandLines[j].getCycle_line().[i-1] == 1)//check stage of prev for ID
+			if (i != 0 && commandLines[j].getCycle_line()[i-1] == 1)//check stage of prev for ID
 			{
 				if (forwarding) //check forwarding
 				{
-					if (commandlines[j].getCommand != "add" && commandlines[j].getCommand != "and" && commandlines[j].getCommand != "or" && commandlines[j].getCommand != "sit") //excluse these commands
+					if (commandLines[j].getCommand() != "add" && commandLines[j].getCommand() != "and" && commandLines[j].getCommand() != "or" && commandLines[j].getCommand() != "sit") //excluse these commands
 					{
-						nops = nopCheck;
+						nops = nopCheck(commandLines,j,i);
 					}
 				}
 				else{//normal checkall
-					nops =  nopCheck(commandLines,j,i);// check and set nops
+					nops = nopCheck(commandLines,j,i);// check and set nops
 				}
 			}
 			//nops insert-----------------------------------------------------------------------------------------------------------
-			
+
 			//incroment----------------------------------------------------------------------------------------------------------
 
 			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column // >> NOTE TO BRYCE: IT'S "INCREMENT" not "INCROMENT" & "COLUMN" not "COLLUM"
