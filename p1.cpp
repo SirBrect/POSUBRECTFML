@@ -149,6 +149,25 @@ int main(int argc, char const *argv[])
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
+
+			//nops check------------------------------------------------------------------------------------------------------------
+			if (i != 0 && commandLines[j].getCycle_line()[i-1] == 1)//check stage of prev for ID
+			{
+				if (forwarding) //check forwarding
+				{
+					if (commandLines[j].getCommand() != "add" && commandLines[j].getCommand() != "and" && commandLines[j].getCommand() != "or" && commandLines[j].getCommand() != "sit") //excluse these commands
+					{
+						nops = nopCheck(commandLines,j,i);
+					}
+				}
+				else{//normal checkall
+					nops = nopCheck(commandLines,j,i);// check and set nops
+				}
+			}
+			//nops insert-----------------------------------------------------------------------------------------------------------
+
+			//incroment----------------------------------------------------------------------------------------------------------
+
 			if (commandLines[j].getCommand() != "loop:") {
 				cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column
 			}
