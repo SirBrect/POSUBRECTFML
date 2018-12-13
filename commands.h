@@ -37,6 +37,7 @@ public:
   	void setID(int id_);
   	void setDelay(int delay);
   	void setCycle_line(int index, int val);
+    void setWholeCommand(std::string wholeCommand_);
  
 
 
@@ -49,8 +50,9 @@ public:
 
 private:
     std::string command;                // stores the MIPS command line
+    std::string wholeCommand;           // stores MIPS command line with all the registers for easy printing
     std::vector<int> cycle_line;        // stores the cycle instructions for all cycles
-    int dependency                      // ID of command that this command is dependent on
+    int dependency;                      // ID of command that this command is dependent on
     std::vector<std::string> regs;      // registers that this command uses
     char type;                          // stores instructions type (R/I)
     int id;                             // ID tag for command line

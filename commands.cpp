@@ -41,9 +41,10 @@ Commands::Commands(std::string command_, std::vector<std::string> regs_, char ty
 
 // prints out command and cycleline
 void Commands::print_line() {
-    std::cout << std::left << std::setw(20) << command << " ";
+    std::cout << std::left << std::setw(20) << wholeCommand;
+
     for (unsigned int i = 0; i < cycle_line.size(); i++) {
-        std::cout << std::left << std::setw(4); 
+        // std::cout << std::left << std::setw(4); 
         decoder(cycle_line[i]);
         // if (i != cycle_line.size()-1) {
         //     std::cout << " ";
@@ -65,25 +66,25 @@ void Commands::decoder(int num) {
     // 7 = *
 
     if (num == 0 || num == 6) {
-        std::cout << ".";
+        std::cout << std::left << std::setw(4) << ".";
     }
     else if (num == 1) {
-        std::cout << "ID";
+        std::cout << std::left << std::setw(4) << "ID";
     }
     else if (num == 2) {
-        std::cout << "IF";
+        std::cout << std::left << std::setw(4) << "IF";
     }
     else if (num == 3) {
-        std::cout << "EX";
+        std::cout << std::left << std::setw(4) << "EX";
     }
     else if (num == 4) {
-        std::cout << "MEM";
+        std::cout << std::left << std::setw(4) << "MEM";
     }
     else if (num == 5) {
-        std::cout << "WB";
+        std::cout << std::left << std::setw(4) << "WB";
     }
     else if (num == 7) {
-        std::cout << "*";
+        std::cout << std::left << std::setw(4) << "*";
     }
 
 }
@@ -115,3 +116,6 @@ void Commands::setCycle_line(int index, int val){
 	cycle_line[index] =  val;
 }
 
+void Commands::setWholeCommand(std::string wholeCommand_){
+	wholeCommand = wholeCommand_;
+}

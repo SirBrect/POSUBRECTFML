@@ -55,7 +55,10 @@ int main(int argc, char const *argv[])
 	}
 
 	//file_reading--------------------------------------------------------------------
-	while(getline(mipscode,linebuff)){
+	while(getline(mipscode,linebuff)) {
+
+		Commands commandline;
+		commandline.setWholeCommand(linebuff); // store whole command line for easy printing
 
 		std::string delimiter = " ";
 		size_t pos = 0;
@@ -64,17 +67,15 @@ int main(int argc, char const *argv[])
 		token = linebuff.substr(0, pos); //grab the command portion from read file
 		std::cout << token << std::endl;//assign here
 		linebuff.erase(0, pos + delimiter.length());
-		Commands commandline;
 		commandline.setCommand(token); //set command portion
 
 		delimiter = ",";
-		if (token != "loop:") //if command has registers add them to this register vector
-		{
+		if (token != "loop:") { //if command has registers add them to this register vector
 			while ((pos = linebuff.find(delimiter)) != std::string::npos) {
 		    	token = linebuff.substr(0, pos);
-		    	std::cout << token << std::endl;//assing here
+		    	std::cout << token << std::endl;	//assign here
 		    	linebuff.erase(0, pos + delimiter.length());
-		    	commandline.addRegs(token); // add to commandlineobj reg storage
+		    	commandline.addRegs(token);			//add to commandlineobj reg storage
 			}
 			commandline.addRegs(linebuff);
 		}
@@ -83,13 +84,12 @@ int main(int argc, char const *argv[])
 		id++;
 	}
 
+
 	//test print-------------------------------------------
 	std::cout << "here are all the commands given and their atributes" <<std::endl;
-	for (i = 0; i < commandLines.size(); ++i)
-	{
+	for (i = 0; i < commandLines.size(); ++i) {
 		std::cout << "commmand: " << commandLines[i].getCommand() << " ~registers ";
-		for (j = 0; j < commandLines[j].getRegs().size(); ++j)
-		{
+		for (j = 0; j < commandLines[j].getRegs().size(); ++j) {
 			std::cout << commandLines[i].getRegs()[j] << " ";
 		}
 		std::cout << " Id: " << commandLines[i].getID() << std::endl;
@@ -97,27 +97,23 @@ int main(int argc, char const *argv[])
 
 	//Program run --------------------------------------------------------------------------
 	std::cout << "START OF SIMULATION";
-	if (forwarding)
-	{
+	if (forwarding) {
 		std::cout << " (no forwarding)" << std::endl;
 	}
-	else{
+	else {
 		std::cout << " (forwarding)" << std::endl;
 	}
 	
 
 
 	//does the incrementation
-	for (i = 0; i < 16; ++i) //for the 16 cycles
-	{
+	for (i = 0; i < 16; ++i) { //for the 16 cycles
 		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
-		std::cout << "CPU Cycles ===>   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16" << std::endl;
-		for (j = 0; j < commandLines.size(); ++j) //for each row
-		{
+		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
+		for (j = 0; j < commandLines.size(); ++j) { //for each row
 			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column // >> NOTE TO BRYCE: IT'S "INCREMENT" not "INCROMENT" & "COLUMN" not "COLLUM"
 			commandLines[j].print_line();
 			std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
-
 		}
 		//prints register contents
 		regs.print_regs();
