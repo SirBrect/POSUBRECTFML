@@ -6,11 +6,11 @@
 #include <string>
 #include <vector>
 
-void controlHazardCheck(Commands cmmd, ) {
+// void controlHazardCheck(Commands cmmd, ) {
 	
-}
+// }
 
-void nopInsert(){
+void nopInsert() {
 
 }
 
@@ -149,12 +149,14 @@ int main(int argc, char const *argv[])
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
-			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column // >> NOTE TO BRYCE: IT'S "INCREMENT" not "INCROMENT" & "COLUMN" not "COLLUM"
-			if (commandLines[j].getCycle_line()[i] != 0) {
-				// std::cout << "PRINT LINE" << std::endl;
-				// std::cout << std::left << std::setw(20) << commandLines[j].getWholeCommand();
+			if (commandLines[j].getCommand() != "loop:") {
+				cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column
+			}
+			//printf command and cycle line
+			if (commandLines[j].getCycle_line()[i] != 0 && commandLines[j].getCommand() != "loop:") {
 				commandLines[j].print_line();	
 			}
+			// if command is an immediate, store digit in register
 			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
 				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
 
@@ -162,6 +164,9 @@ int main(int argc, char const *argv[])
 			//if command is finished, add to number of finished commands
 			if (commandLines[j].getCycle_line()[i] == 5) {
 				finished_cmmds++;	
+			}
+			if (commandLines[j].getCycle_line()[i] == 4 && (commandLines[j].getCommand() == "bne" || commandLines[j].getCommand() == "beq")) {
+				std::cout << "LOOP AT MEM STAGE" << std::endl;
 			}
 			// std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
 		}
