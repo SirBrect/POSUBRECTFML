@@ -88,32 +88,30 @@ int main(int argc, char const *argv[])
 
 
 	//test print-------------------------------------------
-	std::cout << "here are all the commands given and their atributes" <<std::endl;
-	for (i = 0; i < commandLines.size(); ++i) {
-		std::cout << "commmand: " << commandLines[i].getCommand() << " ~registers ";
-		for (j = 0; j < commandLines[j].getRegs().size(); ++j) {
-			std::cout << commandLines[i].getRegs()[j] << " ";
-		}
-		std::cout << " Id: " << commandLines[i].getID() << std::endl;
-	}
+	// std::cout << "here are all the commands given and their atributes" <<std::endl;
+	// for (i = 0; i < commandLines.size(); ++i) {
+	// 	std::cout << "commmand: " << commandLines[i].getCommand() << " ~registers ";
+	// 	for (j = 0; j < commandLines[j].getRegs().size(); ++j) {
+	// 		std::cout << commandLines[i].getRegs()[j] << " ";
+	// 	}
+	// 	std::cout << " Id: " << commandLines[i].getID() << std::endl;
+	// }
 
 	//Program run --------------------------------------------------------------------------
 	std::cout << "START OF SIMULATION";
 	if (forwarding) {
-		std::cout << " (no forwarding)" << std::endl;
-	}
-	else {
 		std::cout << " (forwarding)" << std::endl;
 	}
+	else {
+		std::cout << " (no forwarding)" << std::endl;
+	}
 	
-
-
 	//does the incrementation
 	for (i = 0; i < 16; ++i) { //for the 16 cycles
 		if (finished_cmmds == commandLines.size()) {
 			break;
 		}
-		std::cout << "------------------------------------------------------------------------------------------------------------------------------------------" << std::endl;
+		std::cout << "----------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
 			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column // >> NOTE TO BRYCE: IT'S "INCREMENT" not "INCROMENT" & "COLUMN" not "COLLUM"
@@ -132,11 +130,9 @@ int main(int argc, char const *argv[])
 		//prints register contents
 		regs.print_regs();
 	}
-
-
-
-
-	
+	std::cout << "----------------------------------------------------------------------------------" << std::endl;
+	std::cout << "END OF SIMULATION" << std::endl;
+	std::cout << std::endl;
 
 	return 0;
 }

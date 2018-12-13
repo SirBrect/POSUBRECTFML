@@ -69,10 +69,10 @@ void Commands::decoder(int num) {
         std::cout << std::left << std::setw(4) << ".";
     }
     else if (num == 1) {
-        std::cout << std::left << std::setw(4) << "ID";
+        std::cout << std::left << std::setw(4) << "IF";
     }
     else if (num == 2) {
-        std::cout << std::left << std::setw(4) << "IF";
+        std::cout << std::left << std::setw(4) << "ID";
     }
     else if (num == 3) {
         std::cout << std::left << std::setw(4) << "EX";
