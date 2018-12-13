@@ -27,6 +27,7 @@ public:
     std::vector<std::string> &getRegs() {return regs;}
     char getType(){return type;}
     int getID(){return id;}
+    int getDelay(){return delay;}
 
     // SETTERS:
     void setCommand(std::string command_);
@@ -34,6 +35,8 @@ public:
   	void addRegs(std::string reg);
   	void setType(char type_);
   	void setID(int id_);
+  	void setDelay(int delay);
+  	void setCycle_line(int index, int val);
  
 
 
@@ -51,6 +54,7 @@ private:
     std::vector<std::string> regs; // registers that this command uses
     char type; // stores instructions type (R/I)
     int id; // ID tag for command line
+    int delay;
     
 
 

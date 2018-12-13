@@ -6,8 +6,36 @@
 #include <vector>
 
 
-void cycleIncroment(){
-	
+void cycleIncroment(std::vector<Commands> commandLines,bool forwarding , int row){
+	unsigned j = 0;
+	int intstore = 0;
+	for (j = 0; j < commandLines[row].getCycle_line().size(); ++j) //for each cycle;
+	{
+		if (j <= row)
+		{
+			std::cout << "this is instore before: " << intstore << std::endl; //test print
+			intstore = commandLines[row].getCycle_line()[j];
+			if (j == 0 )
+			{
+				intstore++;
+			}
+			else if (commandLines[row].getDelay() > 0)
+			{
+				intstore = commandLines[row].getCycle_line()[j-1];
+				commandLines[row].setDelay((commandLines[row].getDelay() -1)); 
+			}
+			else if (commandLines[row].getCycle_line()[j-1] < 6)
+			{
+				intstore = 1 + commandLines[row].getCycle_line()[j-1];
+			}
+			else{
+				intstore = 6;
+			}
+
+			commandLines[row].setCycle_line(j,intstore);
+			std::cout << "this is instore after: " << intstore << std::endl; //test print
+		}		
+	}
 }
 
 int main(int argc, char const *argv[])
@@ -18,7 +46,7 @@ int main(int argc, char const *argv[])
 	std::string linebuff; 
 	int id = 0;
 	unsigned int i = 0,j = 0;
-	Registers regs;
+	//Registers regs;
 
 	//argument_checking----------------------------------------------------------------
 	if (argc > 3){
@@ -85,8 +113,20 @@ int main(int argc, char const *argv[])
 
 
 	//does the incromentation
-	// prints register contents
-	//regs.print_regs();
+
+	for (i = 0; i < 16; ++i) //  for the 16 cycles
+	{
+		for (j = 0; j < commandLines.size(); ++j) //for each row
+		{
+			cycleIncroment(commandLines,forwarding,j);
+			commandLines[j].print_line();
+			std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
+
+		}
+		//prints register contents
+		//regs.print_regs();
+	}
+
 
 
 

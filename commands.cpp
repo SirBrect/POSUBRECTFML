@@ -14,6 +14,7 @@ Commands::Commands(){
 	std::vector<std::string> regs_;
 	char type_ = 'x';
 	int id_ = 0;
+	int delay_ = 0;
 
 
 	command = command_;
@@ -22,6 +23,7 @@ Commands::Commands(){
 	regs = regs_;
 	type = type_;
 	id = id_;
+	delay = delay_; 
 
 	for (int i = 0; i < 16; ++i)
 	{
@@ -104,3 +106,12 @@ void Commands::setID(int id_){
 void Commands::addRegs(std::string reg){
 	regs.push_back(reg);
 }
+
+void Commands::setDelay(int delay_){
+	delay = delay_;
+}
+
+void Commands::setCycle_line(int index, int val){
+	cycle_line[index] =  val;
+}
+
