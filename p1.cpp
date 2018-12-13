@@ -2,9 +2,30 @@
 #include <fstream>
 #include "regs.h"
 #include "commands.h"
-#include <string.h>
+#include <string>
 #include <vector>
 
+
+void nopInsert(){
+
+}
+
+int nopCheck(std::vector<Commands> &commandLines, int row, int cycle){//checks two behind for data nop insert
+	int two = row-1;
+	int nops = 0;
+	while(two != (row-2) && row <=0){
+		if (commandLines[two].getRegs().size() >= 3) //if its a command with registers
+		{
+			if (commandLines[row].getRegs()[0] == commandLines[two].getRegs()[1] && commandLines[row].getRegs()[0] == commandLines[two].getRegs()[2])
+			{
+				nops = 3 - (two - row);//might have to check this again later.......................
+				break;
+			}
+		}
+		two++;
+	}
+	return nops;
+}
 
 void cycleIncrement(std::vector<Commands> &commandLines,bool forwarding , int row , int cycle){
 	int intstore = 0;
@@ -18,7 +39,7 @@ void cycleIncrement(std::vector<Commands> &commandLines,bool forwarding , int ro
 		}
 		else if (commandLines[row].getDelay() > 0) //if the line has delays set the cycle equal to the one prevouse
 		{
-			intstore = commandLines[row].getCycle_line()[cycle-1];
+			intstore = commandLines[row].getCycle_line()[cycle-1]; 
 			commandLines[row].setDelay((commandLines[row].getDelay() -1)); 
 		}
 		else if (commandLines[row].getCycle_line()[cycle-1] < 6) //else grab the one prev and incromet it as one 
@@ -44,6 +65,7 @@ int main(int argc, char const *argv[])
 	unsigned int finished_cmmds = 0;
 	unsigned int i = 0,j = 0;
 	Registers regs;
+	int nops = 0;
 
 	//argument_checking----------------------------------------------------------------
 	if (argc > 3){
@@ -114,12 +136,31 @@ int main(int argc, char const *argv[])
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
+
+			//nops check------------------------------------------------------------------------------------------------------------
+			if (i != 0 && commandLines[j].getCycle_line().[i-1] == 1)//check stage of prev for ID
+			{
+				if (forwarding) //check forwarding
+				{
+					if (commandlines[j].getCommand != "add" && commandlines[j].getCommand != "and" && commandlines[j].getCommand != "or" && commandlines[j].getCommand != "sit") //excluse these commands
+					{
+						nops = nopCheck;
+					}
+				}
+				else{//normal checkall
+					nops =  nopCheck(commandLines,j,i);// check and set nops
+				}
+			}
+			//nops insert-----------------------------------------------------------------------------------------------------------
+			
+			//incroment----------------------------------------------------------------------------------------------------------
+
 			cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column // >> NOTE TO BRYCE: IT'S "INCREMENT" not "INCROMENT" & "COLUMN" not "COLLUM"
 			if (commandLines[j].getCycle_line()[i] != 0) {
 				commandLines[j].print_line();	
 			}
-			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
-				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
+			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) { //put values into the regsiters
+				//regs.setRegValue(commandLines[j].getRegs()[0],std::stoi(commandLines[j].getRegs()[2]));
 
 			}
 			if (commandLines[j].getCycle_line()[i] == 5) {
@@ -127,7 +168,8 @@ int main(int argc, char const *argv[])
 			}
 			// std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
 		}
-		//prints register contents
+
+		//prints register contents-------------------------------------------------------------------------------
 		regs.print_regs();
 	}
 	std::cout << "----------------------------------------------------------------------------------" << std::endl;

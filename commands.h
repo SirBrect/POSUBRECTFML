@@ -28,6 +28,7 @@ public:
     char getType() {return type;}
     int getID() {return id;}
     int getDelay() {return delay;}
+    bool getDone() {return done;}
 
     // SETTERS:
     void setCommand(std::string command_);
@@ -38,10 +39,8 @@ public:
   	void setDelay(int delay);
   	void setCycle_line(int index, int val);
     void setWholeCommand(std::string wholeCommand_);
+    void setDone(bool done);
  
-
-
-    void Addkmer(std::string kmer, unsigned int genomeindex);
 
 
 
@@ -57,7 +56,7 @@ private:
     char type;                          // stores instructions type (R/I)
     int id;                             // ID tag for command line
     int delay;
-    
+    bool done;
 
 
 	
