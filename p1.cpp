@@ -5,6 +5,7 @@
 #include "commands.h"
 #include <string>
 #include <vector>
+#include <map>
 
 void branchAndDiscard(std::vector<Commands> &commandLines, int j, int i, int loopIndex, bool &controlHazard, int &id) {
 	// discard commands started (up to 3)
@@ -41,7 +42,7 @@ void branchAndDiscard(std::vector<Commands> &commandLines, int j, int i, int loo
 	}
 }
 
-void nopInsert(std::vector<Commands> &commandLines, int row, int cycle,int nops){
+void nopInsert(std::vector<Commands> &commandLines, int row, int cycle,int nops) {
 	Commands nopline;
 	nopline.setCommand("nop");
 	nopline.setWholeCommand("nop");
@@ -53,7 +54,7 @@ void nopInsert(std::vector<Commands> &commandLines, int row, int cycle,int nops)
 	it =  commandLines.insert(it,nopline);
 }
 
-int nopCheck(std::vector<Commands> commandLines, int row, int cycle){//checks two behind for data nop insert
+int nopCheck(std::vector<Commands> commandLines, int row, int cycle) {//checks two behind for data nop insert
 	int two = row-1;
 	int nops = 0;
 	//std::cout << "two :" << two << " row: " << row << std::endl;
@@ -67,7 +68,7 @@ int nopCheck(std::vector<Commands> commandLines, int row, int cycle){//checks tw
 				//std::cout << "cycle stage " << commandLines[two].getCycle_line()[cycle] << std::endl;
 				//std::cout << "done?: " << !commandLines[row].getDone() << std::endl;
 				//std::cout << "comparing: " << commandLines[row].getRegs()[1] << " vs " << commandLines[two].getRegs()[0] << " and " << commandLines[row].getRegs()[2] << " vs " <<commandLines[two].getRegs()[0] << std::endl;
-				nops = 3 - (row - two);//might have to check this again later.......................
+				nops = 3 - (row - two);	//might have to check this again later.......................
 				//std::cout << "TRUEEEEEEEEEEEEEEEEE" << std::endl;
 				break;
 			}
@@ -131,6 +132,7 @@ int main(int argc, char const *argv[])
 	int nops = 0;
 	bool controlHazard = false;
 	unsigned int icopy, jcopy;
+	std::map <std::string, int> branchIndexes;
 
 	//ERROR CHECKING----------------------------------------------------------------------
 	if (argc > 3){
@@ -144,7 +146,7 @@ int main(int argc, char const *argv[])
 
 	//FILE READING-------------------------------------------------------------------------
 	while(getline(mipscode,linebuff)) {
-		if (linebuff != "loop:") {
+		if (linebuff[linebuff.size()-1] != ':') {
 			Commands commandline;
 			commandline.setWholeCommand(linebuff); // store whole command line for easy printing
 
@@ -158,7 +160,7 @@ int main(int argc, char const *argv[])
 			commandline.setCommand(token); 			//set command portion
 
 			delimiter = ",";
-			if (token != "loop:") { //if command has registers add them to this register vector
+			if (token[0] != 'l') { //if command has registers add them to this register vector
 				while ((pos = linebuff.find(delimiter)) != std::string::npos) {
 					token = linebuff.substr(0, pos);
 					// std::cout << token << std::endl;	//assign here
@@ -172,8 +174,9 @@ int main(int argc, char const *argv[])
 			commandLines.push_back(commandline); //add to overall commandLines vector
 			id++;
 		}
-		else if (linebuff == "loop:") {
-			loopIndex = id;
+		else if (linebuff[linebuff.size()-1] == ':') {
+			if (linebuff.size () > 0)  linebuff.resize (linebuff.size () - 1);
+			branchIndexes[linebuff] = id;
 		}
 
 	}
@@ -251,7 +254,7 @@ int main(int argc, char const *argv[])
 
 			// if command is an immediate, store digit in register
 			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
-				regs.setRegValue(commandLines[j].getCommand(), commandLines[j].getRegs()[0], commandLines[j].getRegs()[1], std::stoi(commandLines[j].getRegs()[2]));
+				regs.setRegValue(commandLines[j].getCommand(), commandLines[j].getRegs()[0], commandLines[j].getRegs()[1], (unsigned int)std::stoi(commandLines[j].getRegs()[2]));
 			}
 			if (commandLines[j].getCycle_line()[i] == 5 && !isdigit(commandLines[j].getRegs()[2][0]) && commandLines[j].getRegs()[2][0] != 'l') {
 				regs.setRegValue2(commandLines[j].getCommand(), commandLines[j].getRegs()[0], commandLines[j].getRegs()[1], commandLines[j].getRegs()[2]);
@@ -271,6 +274,7 @@ int main(int argc, char const *argv[])
 					controlHazard = true;
 					icopy = i; 
 					jcopy = j;
+					loopIndex = branchIndexes[commandLines[j].getRegs()[2]];
 
 				}
 				//if not equal and bne command
@@ -278,14 +282,13 @@ int main(int argc, char const *argv[])
 					controlHazard = true;
 					icopy = i; 
 					jcopy = j;
+					loopIndex = branchIndexes[commandLines[j].getRegs()[2]];
 				}
 			}
-			// std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
 		}
 		// BRANCH SHOULD BE HERE
 		if (controlHazard) {
 			branchAndDiscard(commandLines, jcopy, icopy+1, loopIndex, controlHazard, id);
-			// std::cout << "OUTSIDE: " << commandLines[jcopy+1].getCycle_line()[icopy+1] << std::endl;
 		}
 		//prints register contents-------------------------------------------------------------------------------
 		regs.print_regs();

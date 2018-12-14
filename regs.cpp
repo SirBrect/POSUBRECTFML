@@ -10,10 +10,10 @@
 Registers::Registers() {
 
     std::vector<std::string> s_regs_; // S registers (strings)
-    std::vector<int> sreg_values_; // S register values
+    std::vector<unsigned int> sreg_values_; // S register values
 
     std::vector<std::string> t_regs_; // T registers (strings)
-    std::vector<int> treg_values_; // T register values
+    std::vector<unsigned int> treg_values_; // T register values
 
     s_regs = s_regs_;    
     sreg_values = sreg_values_;
@@ -93,9 +93,9 @@ int Registers::getRegValue(std::string reg) {
 }
 
 // updates given register with inputed value
-void Registers::setRegValue(std::string cmmd, std::string rd, std::string r1, int input) {
-    int value;
-    int tmp; 
+void Registers::setRegValue(std::string cmmd, std::string rd, std::string r1, unsigned int input) {
+    unsigned int value;
+    unsigned int tmp; 
     tmp = getRegValue(r1);
 
     if (cmmd == "ori") {
@@ -130,9 +130,9 @@ void Registers::setRegValue(std::string cmmd, std::string rd, std::string r1, in
 
 // updates given register with inputed value
 void Registers::setRegValue2(std::string cmmd, std::string rd, std::string r1, std::string r2) {
-    int value;
-    int tmp1;
-    int tmp2;
+    unsigned int value;
+    unsigned int tmp1;
+    unsigned int tmp2;
     tmp1 = getRegValue(r1);
     tmp2 = getRegValue(r2);
 
