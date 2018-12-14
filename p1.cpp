@@ -42,15 +42,21 @@ void branchAndDiscard(std::vector<Commands> &commandLines, int j, int i, int loo
 }
 
 void nopInsert(std::vector<Commands> &commandLines, int row, int cycle,int nops){
-	Commands nopline;
-	nopline.setCommand("nop");
-	nopline.setWholeCommand("nop");
-	nopline.setDelay(3);
-	nopline.setCycle_line((cycle -2),1);
-	nopline.setCycle_line((cycle-1),2);
 	std::vector<Commands>::iterator it = commandLines.begin();
-	it = it + row;
-	it =  commandLines.insert(it,nopline);
+	for (int i = 0; i < nops; ++i)
+	{
+		//std::cout << "does it?" << std::endl;
+		it = commandLines.begin();
+		Commands nopline;
+		nopline.setCommand("nop");
+		nopline.setWholeCommand("nop");
+		nopline.setDelay(2);
+		nopline.setCycle_line((cycle -2),1);
+		nopline.setCycle_line((cycle-1),2);
+		nopline.setCycle_line((cycle),7);
+		it = it + row;
+		it =  commandLines.insert(it,nopline);
+	}
 }
 
 int nopCheck(std::vector<Commands> commandLines, int row, int cycle){//checks two behind for data nop insert
@@ -79,14 +85,14 @@ int nopCheck(std::vector<Commands> commandLines, int row, int cycle){//checks tw
 
 void cycleIncrement(std::vector<Commands> &commandLines, bool forwarding, int row, int cycle){
 	int intstore = 0;
-	if (row <= cycle) {
+	if (row <= cycle || commandLines[row].getCycle_line()[cycle -1] != 0) {
 		//std::cout << "this is instore before: " << intstore << std::endl; //test print
 		intstore = commandLines[row].getCycle_line()[cycle];
 		if (cycle == 0 ) //if its the first index increment
 		{
 			intstore++;
 		}
-		else if (commandLines[row].getDelay() > 0) //if the line has delays set the cycle equal to the one prevouse
+		else if (commandLines[row].getDelay() > 0 && commandLines[row].getCycle_line()[cycle -1] != 0) //if the line has delays set the cycle equal to the one prevouse
 		{
 			if (commandLines[row].getCycle_line()[cycle] == 7 || commandLines[row].getCommand() == "nop") {
 				intstore = 7; 
@@ -114,7 +120,7 @@ void cycleIncrement(std::vector<Commands> &commandLines, bool forwarding, int ro
 		}
 
 		commandLines[row].setCycle_line(cycle,intstore); //assign 
-		//std::cout << "this is instore after: " << intstore << std::endl; //test print
+		//std::cout << "this is instore after: " << intstore << " for row: " << row << " for index: " << cycle << " for command: " << commandLines[row].getCommand() << std::endl; //test print
 	}		
 }
 
@@ -214,6 +220,7 @@ int main(int argc, char const *argv[])
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
+			//std::cout << "j: " << j << " size: " << commandLines.size() << std::endl;
 			nops = 0;
 
 			//nops check------------------------------------------------------------------------------------------------------------
@@ -234,19 +241,20 @@ int main(int argc, char const *argv[])
 			//nops insert----------------------------------------------------------------------------------------------------------
 			if (nops > 0)
 			{
+				nopInsert(commandLines,j,i,nops);
+				j += nops;
 				//std::cout << "nop inserting in row " << i << " nops: " << nops <<  std::endl;
 				int temp = j;
 				for (int z = 0; z < nops; ++z)
 				{
+					//std::cout << "temp" << temp << std::endl;
 					commandLines[temp].setDelay(nops);
 					temp++;
 				}
-				for (int z = 0; z < nops; ++z)
-				{
-					nopInsert(commandLines,j,i,nops);
-				}
+
 			}
 			//increment----------------------------------------------------------------------------------------------------------
+			//std::cout << "fucking command: " << commandLines[j].getCommand() << std::endl;
 
 			if (commandLines[j].getCommand() != "loop:") {
 				cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column
