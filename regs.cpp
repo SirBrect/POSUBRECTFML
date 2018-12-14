@@ -97,7 +97,7 @@ void Registers::setRegValue(std::string cmmd, std::string rd, std::string r1, in
     int value;
     int tmp;
     if (cmmd == "ori") {
-        if (r1[1] == 'z') {
+        if (r1[1] == 'z' || getRegValue(r1) == 0) {
             value = input;
         }
     }
