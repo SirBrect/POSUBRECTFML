@@ -83,9 +83,9 @@ int nopCheck(std::vector<Commands> commandLines, int row, int cycle){//checks tw
 	return nops;
 }
 
-void cycleIncrement(std::vector<Commands> &commandLines, bool forwarding, int row, int cycle){
+void cycleIncrement(std::vector<Commands> &commandLines, bool forwarding, int row, int cycle , int totalnops){
 	int intstore = 0;
-	if (row <= cycle || commandLines[row].getCycle_line()[cycle -1] != 0) {
+	if ((row - totalnops) <= cycle) {
 		//std::cout << "this is instore before: " << intstore << std::endl; //test print
 		intstore = commandLines[row].getCycle_line()[cycle];
 		if (cycle == 0 ) //if its the first index increment
@@ -137,6 +137,7 @@ int main(int argc, char const *argv[])
 	int nops = 0;
 	bool controlHazard = false;
 	unsigned int icopy, jcopy;
+	int totalnops = 0;
 
 	//ERROR CHECKING----------------------------------------------------------------------
 	if (argc > 3){
@@ -217,6 +218,7 @@ int main(int argc, char const *argv[])
 			}
 			break;
 		}
+		//bool therewasnops = false;
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
@@ -224,7 +226,7 @@ int main(int argc, char const *argv[])
 			nops = 0;
 
 			//nops check------------------------------------------------------------------------------------------------------------
-			if (i >= 1 && j >= 1 && commandLines[j].getCycle_line()[i-1] == 2)//check stage of prev for ID
+			if (i >= 1 && j >= 1 && commandLines[j].getCycle_line()[i-1] == 1)//check stage of prev for ID
 			{
 				//std::cout << "nop checking in row " << i << std::endl;
 				if (forwarding) //check forwarding
@@ -243,26 +245,27 @@ int main(int argc, char const *argv[])
 			{
 				nopInsert(commandLines,j,i,nops);
 				j += nops;
+				totalnops += nops;
 				//std::cout << "nop inserting in row " << i << " nops: " << nops <<  std::endl;
-				int temp = j;
-				for (int z = 0; z < nops; ++z)
-				{
-					//std::cout << "temp" << temp << std::endl;
-					commandLines[temp].setDelay(nops);
-					temp++;
-				}
-
 			}
 			//increment----------------------------------------------------------------------------------------------------------
 			//std::cout << "fucking command: " << commandLines[j].getCommand() << std::endl;
 
 			if (commandLines[j].getCommand() != "loop:") {
-				cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column
+				cycleIncrement(commandLines,forwarding,j,i,totalnops); //increment cycle by column
 			}
 
 			//printf command and cycle line
 			if (commandLines[j].getCycle_line()[i] != 0 && commandLines[j].getCommand() != "loop:") {
 				commandLines[j].print_line();	
+			}
+
+			int temp = j;
+			for (int z = 0; z < nops; ++z)
+			{
+				//std::cout << "temp" << temp << std::endl;
+				commandLines[temp].setDelay(nops);
+				temp++;
 			}
 
 			// if command is an immediate, store digit in register
@@ -305,7 +308,7 @@ int main(int argc, char const *argv[])
 		}
 		//prints register contents-------------------------------------------------------------------------------
 		regs.print_regs();
-	}
+	}//for loup
 	std::cout << "----------------------------------------------------------------------------------" << std::endl;
 	std::cout << "END OF SIMULATION" << std::endl;
 
