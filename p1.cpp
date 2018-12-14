@@ -28,6 +28,10 @@ void branchAndDiscard(std::vector<Commands> &commandLines, int j, int i, int loo
 
 	for (unsigned int m = loopIndex; m < ogSize; m++) {
 		Commands tempcmmd;
+		// if (commandLines[m].getCommand() == "nop") {
+		// 	ogSize++;
+		// 	continue;
+		// }
 		tempcmmd.setWholeCommand(commandLines[m].getWholeCommand()); 
 		tempcmmd.setCommand(commandLines[m].getCommand()); 	
 		tempcmmd.setRegs(commandLines[m].getRegs()); 			
@@ -201,6 +205,10 @@ int main(int argc, char const *argv[])
 	//incrementation
 	for (i = 0; i < 16; ++i) { //for the 16 cycles
 		if (commandLines[commandLines.size()-1].getDone()) {
+			for (unsigned int k = 0; k < commandLines.size(); ++k)
+			{
+				// std::cout << "command: " << commandLines[k].getCommand() << " done?: " << commandLines[k].getDone() << std::endl;
+			}
 			break;
 		}
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
@@ -243,8 +251,7 @@ int main(int argc, char const *argv[])
 
 			// if command is an immediate, store digit in register
 			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
-				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
-
+				regs.setRegValue(commandLines[j].getCommand(), commandLines[j].getRegs()[0], commandLines[j].getRegs()[1], std::stoi(commandLines[j].getRegs()[2]));
 			}
 
 			//if command is finished, add to number of finished commands
@@ -282,7 +289,6 @@ int main(int argc, char const *argv[])
 	}
 	std::cout << "----------------------------------------------------------------------------------" << std::endl;
 	std::cout << "END OF SIMULATION" << std::endl;
-	std::cout << std::endl;
 
 	return 0;
 }

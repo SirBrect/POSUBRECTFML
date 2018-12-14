@@ -93,14 +93,39 @@ int Registers::getRegValue(std::string reg) {
 }
 
 // updates given register with inputed value
-void Registers::setRegValue(std::string rd, int input) {
+void Registers::setRegValue(std::string cmmd, std::string rd, std::string r1, int input) {
+    int value;
+    int tmp;
+    if (cmmd == "ori") {
+        if (r1[1] == 'z') {
+            value = input;
+        }
+    }
+    else if (cmmd == "addi") {
+        tmp = getRegValue(r1);
+        value = tmp + input;
+    }
+    else if (cmmd == "andi") {
+        tmp = getRegValue(r1);
+        value = tmp;
+    }
+    else if (cmmd == "slti") {
+        tmp = getRegValue(r1);
+        if (tmp < input) {
+            value = 1;
+        }
+        else if (tmp > input) {
+            value = 0;
+        }
+    }
+    
     int index = rd[2] - '0';
 
     if (rd[1] == 's') {
-        sreg_values[index] = input;
+        sreg_values[index] = value;
     }
     else if (rd[1] == 't') {
-        treg_values[index] = input;
+        treg_values[index] = value;
     }
 }
 

@@ -21,7 +21,7 @@ public:
     int getRegValue(std::string reg);
 
     // SETTERS:
-    void setRegValue(std::string rd, int input);
+    void setRegValue(std::string cmmd, std::string rd, std::string r1, int input);
 
     // OTHER METHODS:
 
