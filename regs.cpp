@@ -95,22 +95,21 @@ int Registers::getRegValue(std::string reg) {
 // updates given register with inputed value
 void Registers::setRegValue(std::string cmmd, std::string rd, std::string r1, int input) {
     int value;
-    int tmp;
+    int tmp; 
+    tmp = getRegValue(r1);
+
     if (cmmd == "ori") {
-        if (r1[1] == 'z' || getRegValue(r1) == 0) {
+        if (r1[1] == 'z' || tmp == 0) {
             value = input;
         }
     }
     else if (cmmd == "addi") {
-        tmp = getRegValue(r1);
         value = tmp + input;
     }
     else if (cmmd == "andi") {
-        tmp = getRegValue(r1);
         value = tmp;
     }
     else if (cmmd == "slti") {
-        tmp = getRegValue(r1);
         if (tmp < input) {
             value = 1;
         }
@@ -129,3 +128,40 @@ void Registers::setRegValue(std::string cmmd, std::string rd, std::string r1, in
     }
 }
 
+// updates given register with inputed value
+void Registers::setRegValue2(std::string cmmd, std::string rd, std::string r1, std::string r2) {
+    int value;
+    int tmp1;
+    int tmp2;
+    tmp1 = getRegValue(r1);
+    tmp2 = getRegValue(r2);
+
+    if (cmmd == "add") {
+        value = tmp1 + tmp2;
+    }
+    else if (cmmd == "and") {
+        if (tmp1 != 0 && tmp2 != 0) {
+            value = 1;
+        }
+        else {
+            value = 0;
+        }
+    }
+    else if (cmmd == "slt") {
+        if (tmp1 < tmp2) {
+            value = 1;
+        }
+        else if (tmp1 > tmp2) {
+            value = 0;
+        }
+    }
+    
+    int index = rd[2] - '0';
+
+    if (rd[1] == 's') {
+        sreg_values[index] = value;
+    }
+    else if (rd[1] == 't') {
+        treg_values[index] = value;
+    }
+}

@@ -261,6 +261,9 @@ int main(int argc, char const *argv[])
 			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
 				regs.setRegValue(commandLines[j].getCommand(), commandLines[j].getRegs()[0], commandLines[j].getRegs()[1], std::stoi(commandLines[j].getRegs()[2]));
 			}
+			if (commandLines[j].getCycle_line()[i] == 5 && !isdigit(commandLines[j].getRegs()[2][0]) && commandLines[j].getRegs()[2][0] != 'l') {
+				regs.setRegValue2(commandLines[j].getCommand(), commandLines[j].getRegs()[0], commandLines[j].getRegs()[1], commandLines[j].getRegs()[2]);
+			}
 
 			//if command is finished, add to number of finished commands
 			if (commandLines[j].getCycle_line()[i] == 5) {

@@ -22,6 +22,7 @@ public:
 
     // SETTERS:
     void setRegValue(std::string cmmd, std::string rd, std::string r1, int input);
+    void setRegValue2(std::string cmmd, std::string rd, std::string r1, std::string r2);
 
     // OTHER METHODS:
 
