@@ -101,6 +101,11 @@ void cycleIncrement(std::vector<Commands> &commandLines, bool forwarding, int ro
 			commandLines[row].setDone(true);
 		}
 
+		if (intstore == 5)
+		{
+			commandLines[row].setDone(true);
+		}
+
 		commandLines[row].setCycle_line(cycle,intstore); //assign 
 		//std::cout << "this is instore after: " << intstore << std::endl; //test print
 	}		
@@ -192,8 +197,12 @@ int main(int argc, char const *argv[])
 	
 	//incrementation
 	for (i = 0; i < 16; ++i) { //for the 16 cycles
-		if (commandLines[commandLines.size()].getDone()) {
-			//break;
+		if (commandLines[commandLines.size()-1].getDone()) {
+			for (int k = 0; k < commandLines.size(); ++k)
+			{
+				std::cout << "command: " << commandLines[k].getCommand() << " done?: " << commandLines[k].getDone() << std::endl;
+			}
+			break;
 		}
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
