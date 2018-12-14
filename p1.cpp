@@ -71,6 +71,7 @@ void cycleIncrement(std::vector<Commands> &commandLines,bool forwarding , int ro
 		}
 		else{ // this doesnt need to be here but watev
 			intstore = 6;
+			commandLines[row].setDone(true);
 		}
 
 		commandLines[row].setCycle_line(cycle,intstore); //assign 
@@ -162,8 +163,8 @@ int main(int argc, char const *argv[])
 	
 	//incrementation
 	for (i = 0; i < 16; ++i) { //for the 16 cycles
-		if (finished_cmmds == commandLines.size()) {
-			break;
+		if (commandLines[commandLines.size()].getDone()) {
+			//break;
 		}
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
@@ -203,7 +204,7 @@ int main(int argc, char const *argv[])
 				commandLines[j].print_line();	
 			}
 			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
-				//regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
+				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
 
 			}
 			//if command is finished, add to number of finished commands
