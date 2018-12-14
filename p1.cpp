@@ -15,25 +15,32 @@ void controlHazardCheck(Commands cmmd, ) {
 void nopInsert(std::vector<Commands> &commandLines, int row, int cycle,int nops){
 	Commands nopline;
 	nopline.setCommand("nop");
-	commandLines[row].setDelay(nops);
+	nopline.setWholeCommand("nop");
+	nopline.setDelay(3);
+	nopline.setCycle_line((cycle -2),1);
+	nopline.setCycle_line((cycle-1),2);
 	std::vector<Commands>::iterator it = commandLines.begin();
 	it = it + row;
 	it =  commandLines.insert(it,nopline);
 }
 
-int nopCheck(std::vector<Commands> &commandLines, int row, int cycle){//checks two behind for data nop insert
+int nopCheck(std::vector<Commands> commandLines, int row, int cycle){//checks two behind for data nop insert
 	int two = row-1;
 	int nops = 0;
-	while(two != (row-2) && row <=0){
+	//std::cout << "two :" << two << " row: " << row << std::endl;
+	while(two >= (row-2) && row >= 0 && two >= 0){
+		//std::cout << commandLines[two].getRegs().size();
 		if (commandLines[two].getRegs().size() >= 3) //if its a command with registers
 		{
-			if (commandLines[row].getRegs()[0] == commandLines[two].getRegs()[1] && commandLines[row].getRegs()[0] == commandLines[two].getRegs()[2])
-			{
-				nops = 3 - (two - row);//might have to check this again later.......................
+			//std::cout << "comparing: " << commandLines[row].getRegs()[1] << " vs " << commandLines[two].getRegs()[0] << " and " << commandLines[row].getRegs()[2] << " vs " <<commandLines[two].getRegs()[0] << std::endl;
+			if (commandLines[row].getRegs()[1] == commandLines[two].getRegs()[0] || commandLines[row].getRegs()[2] == commandLines[two].getRegs()[0])
+			{	
+				nops = 3 - (row - two);//might have to check this again later.......................
+				//std::cout << "TRUEEEEEEEEEEEEEEEEE" << std::endl;
 				break;
 			}
 		}
-		two++;
+		two--;
 	}
 	return nops;
 }
@@ -50,7 +57,12 @@ void cycleIncrement(std::vector<Commands> &commandLines,bool forwarding , int ro
 		}
 		else if (commandLines[row].getDelay() > 0) //if the line has delays set the cycle equal to the one prevouse
 		{
-			intstore = commandLines[row].getCycle_line()[cycle-1]; 
+			if (commandLines[row].getCommand() == "nop")
+			{
+				intstore = 7;
+			}else{
+				intstore = commandLines[row].getCycle_line()[cycle-1]; 
+			}
 			commandLines[row].setDelay((commandLines[row].getDelay() -1)); 
 		}
 		else if (commandLines[row].getCycle_line()[cycle-1] < 6) //else grab the one prev and increment it as one 
@@ -116,7 +128,7 @@ int main(int argc, char const *argv[])
 		}
 
 		commandline.setID(id);
-		commandLines.push_back(commandline); //add to overall commandlines vector
+		commandLines.push_back(commandline); //add to overall commandLines vector
 		id++;
 	}
 
@@ -156,10 +168,12 @@ int main(int argc, char const *argv[])
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
 		std::cout << "CPU Cycles ===>     1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16" << std::endl;
 		for (j = 0; j < commandLines.size(); ++j) { //for each row
+			nops = 0;
 
 			//nops check------------------------------------------------------------------------------------------------------------
-			if (i != 0 && commandLines[j].getCycle_line()[i-1] == 1)//check stage of prev for ID
+			if (i >= 1 && j >= 1 && commandLines[j].getCycle_line()[i-1] == 2)//check stage of prev for ID
 			{
+				//std::cout << "nop checking in row " << i << std::endl;
 				if (forwarding) //check forwarding
 				{
 					if (commandLines[j].getCommand() != "add" && commandLines[j].getCommand() != "and" && commandLines[j].getCommand() != "or" && commandLines[j].getCommand() != "sit") //excluse these commands
@@ -174,7 +188,10 @@ int main(int argc, char const *argv[])
 			//nops insert----------------------------------------------------------------------------------------------------------
 			if (nops > 0)
 			{
+				//std::cout << "nop inserting in row " << i << " nops: " << nops <<  std::endl;
+				commandLines[j].setDelay(nops);
 				nopInsert(commandLines,j,i,nops);
+
 			}
 
 			//incroment------------------------------------------------------------------------------------------------------------
