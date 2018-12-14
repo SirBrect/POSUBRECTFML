@@ -21,17 +21,17 @@ public:
     int getRegValue(std::string reg);
 
     // SETTERS:
-    void setRegValue(std::string cmmd, std::string rd, std::string r1, int input);
+    void setRegValue(std::string cmmd, std::string rd, std::string r1, unsigned int input);
     void setRegValue2(std::string cmmd, std::string rd, std::string r1, std::string r2);
 
     // OTHER METHODS:
 
 private:
     std::vector<std::string> s_regs; // S registers (strings)
-    std::vector<int> sreg_values; // S register values
+    std::vector<unsigned int> sreg_values; // S register values
 
     std::vector<std::string> t_regs; // T registers (strings)
-    std::vector<int> treg_values; // T register values
+    std::vector<unsigned int> treg_values; // T register values
 
 };
 
