@@ -28,6 +28,10 @@ void branchAndDiscard(std::vector<Commands> &commandLines, int j, int i, int loo
 
 	for (unsigned int m = loopIndex; m < ogSize; m++) {
 		Commands tempcmmd;
+		// if (commandLines[m].getCommand() == "nop") {
+		// 	ogSize++;
+		// 	continue;
+		// }
 		tempcmmd.setWholeCommand(commandLines[m].getWholeCommand()); 
 		tempcmmd.setCommand(commandLines[m].getCommand()); 	
 		tempcmmd.setRegs(commandLines[m].getRegs()); 			
@@ -198,7 +202,7 @@ int main(int argc, char const *argv[])
 	//incrementation
 	for (i = 0; i < 16; ++i) { //for the 16 cycles
 		if (commandLines[commandLines.size()-1].getDone()) {
-			for (int k = 0; k < commandLines.size(); ++k)
+			for (unsigned int k = 0; k < commandLines.size(); ++k)
 			{
 				std::cout << "command: " << commandLines[k].getCommand() << " done?: " << commandLines[k].getDone() << std::endl;
 			}
