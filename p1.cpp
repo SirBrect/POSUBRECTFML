@@ -57,10 +57,10 @@ void nopInsert(std::vector<Commands> &commandLines, int row, int cycle,int nops)
 		Commands nopline;
 		nopline.setCommand("nop");
 		nopline.setWholeCommand("nop");
-		nopline.setDelay(2);
-		nopline.setCycle_line((cycle -2),1);
-		nopline.setCycle_line((cycle-1),2);
-		nopline.setCycle_line((cycle),7);
+		nopline.setDelay(3);
+		nopline.setCycle_line((cycle -1),1);
+		nopline.setCycle_line((cycle),2);
+		//nopline.setCycle_line((cycle),7);
 		it = it + row;
 		it =  commandLines.insert(it,nopline);
 	}
