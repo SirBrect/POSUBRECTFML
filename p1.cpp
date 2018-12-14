@@ -37,9 +37,6 @@ void branchAndDiscard(std::vector<Commands> &commandLines, int j, int i, int loo
 	}
 }
 
-void nopInsert() {
-
-*/
 void nopInsert(std::vector<Commands> &commandLines, int row, int cycle,int nops){
 	Commands nopline;
 	nopline.setCommand("nop");
@@ -159,18 +156,14 @@ int main(int argc, char const *argv[])
 				commandline.addRegs(linebuff);
 				// std::cout << linebuff << std::endl;
 			}
-
 			commandline.setID(id);
-			commandLines.push_back(commandline); //add to overall commandlines vector
+			commandLines.push_back(commandline); //add to overall commandLines vector
 			id++;
 		}
 		else if (linebuff == "loop:") {
 			loopIndex = id;
 		}
 
-		commandline.setID(id);
-		commandLines.push_back(commandline); //add to overall commandLines vector
-		id++;
 	}
 
 
