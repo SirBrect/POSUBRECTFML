@@ -235,8 +235,16 @@ int main(int argc, char const *argv[])
 			if (nops > 0)
 			{
 				//std::cout << "nop inserting in row " << i << " nops: " << nops <<  std::endl;
-				commandLines[j].setDelay(nops);
-				nopInsert(commandLines,j,i,nops);
+				int temp = j;
+				for (int z = 0; z < nops; ++z)
+				{
+					commandLines[temp].setDelay(nops);
+					temp++;
+				}
+				for (int z = 0; z < nops; ++z)
+				{
+					nopInsert(commandLines,j,i,nops);
+				}
 			}
 			//increment----------------------------------------------------------------------------------------------------------
 
