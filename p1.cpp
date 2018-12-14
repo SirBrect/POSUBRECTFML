@@ -57,8 +57,9 @@ int nopCheck(std::vector<Commands> commandLines, int row, int cycle){//checks tw
 		//std::cout << commandLines[two].getRegs().size();
 		if (commandLines[two].getRegs().size() >= 3) //if its a command with registers
 		{
+			//std::cout << "done?: " << !commandLines[row].getDone() << std::endl;
 			//std::cout << "comparing: " << commandLines[row].getRegs()[1] << " vs " << commandLines[two].getRegs()[0] << " and " << commandLines[row].getRegs()[2] << " vs " <<commandLines[two].getRegs()[0] << std::endl;
-			if (commandLines[row].getRegs()[1] == commandLines[two].getRegs()[0] || commandLines[row].getRegs()[2] == commandLines[two].getRegs()[0])
+			if ((commandLines[row].getRegs()[1] == commandLines[two].getRegs()[0] || commandLines[row].getRegs()[2] == commandLines[two].getRegs()[0]) && !commandLines[two].getDone())
 			{	
 				nops = 3 - (row - two);//might have to check this again later.......................
 				//std::cout << "TRUEEEEEEEEEEEEEEEEE" << std::endl;
@@ -198,7 +199,7 @@ int main(int argc, char const *argv[])
 	//incrementation
 	for (i = 0; i < 16; ++i) { //for the 16 cycles
 		if (commandLines[commandLines.size()-1].getDone()) {
-			for (int k = 0; k < commandLines.size(); ++k)
+			for (unsigned int k = 0; k < commandLines.size(); ++k)
 			{
 				std::cout << "command: " << commandLines[k].getCommand() << " done?: " << commandLines[k].getDone() << std::endl;
 			}
