@@ -205,7 +205,7 @@ int main(int argc, char const *argv[])
 		if (commandLines[commandLines.size()-1].getDone()) {
 			for (unsigned int k = 0; k < commandLines.size(); ++k)
 			{
-				std::cout << "command: " << commandLines[k].getCommand() << " done?: " << commandLines[k].getDone() << std::endl;
+				// std::cout << "command: " << commandLines[k].getCommand() << " done?: " << commandLines[k].getDone() << std::endl;
 			}
 			break;
 		}
@@ -249,8 +249,7 @@ int main(int argc, char const *argv[])
 
 			// if command is an immediate, store digit in register
 			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
-				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
-
+				regs.setRegValue(commandLines[j].getCommand(), commandLines[j].getRegs()[0], commandLines[j].getRegs()[1], std::stoi(commandLines[j].getRegs()[2]));
 			}
 
 			//if command is finished, add to number of finished commands
