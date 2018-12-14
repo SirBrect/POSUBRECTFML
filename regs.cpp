@@ -129,7 +129,7 @@ void Registers::setRegValue(std::string cmmd, std::string rd, std::string r1, in
 }
 
 // updates given register with inputed value
-void Registers::setRegValue(std::string cmmd, std::string rd, std::string r1, std::string r2) {
+void Registers::setRegValue2(std::string cmmd, std::string rd, std::string r1, std::string r2) {
     int value;
     int tmp1;
     int tmp2;
