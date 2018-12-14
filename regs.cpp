@@ -140,7 +140,12 @@ void Registers::setRegValue2(std::string cmmd, std::string rd, std::string r1, s
         value = tmp1 + tmp2;
     }
     else if (cmmd == "and") {
-        value = tmp1;
+        if (tmp1 != 0 && tmp2 != 0) {
+            value = 1;
+        }
+        else {
+            value = 0;
+        }
     }
     else if (cmmd == "slt") {
         if (tmp1 < tmp2) {
