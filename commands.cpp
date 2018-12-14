@@ -45,7 +45,13 @@ Commands::Commands(std::string command_, std::vector<std::string> regs_, char ty
 void Commands::print_line() {
     std::cout << std::left << std::setw(20) << wholeCommand << std::flush;
     for (unsigned int i = 0; i < cycle_line.size(); i++) {
-        decoder(cycle_line[i]);
+        if (i == cycle_line.size()-1) {
+            lastDecoder(cycle_line[i]);
+        }
+        else {
+            decoder(cycle_line[i]);
+        }
+        
         // if (i != cycle_line.size()-1) {
         //     std::cout << " ";
         // }
@@ -64,6 +70,8 @@ void Commands::decoder(int num) {
     // 5 = WB
     // 6 = .
     // 7 = *
+
+    // if end, return and dont set width
 
     if (num == 0 || num == 6) {
         std::cout << std::left << std::setw(4) << ".";
@@ -89,37 +97,68 @@ void Commands::decoder(int num) {
 
 }
 
+// decodes cycle_line into proper instructions, returns without setting width
+void Commands::lastDecoder(int num) {
+    if (num == 0 || num == 6) {
+        std::cout << ".";
+    }
+    else if (num == 1) {
+        std::cout << "IF";
+    }
+    else if (num == 2) {
+        std::cout << "ID";
+    }
+    else if (num == 3) {
+        std::cout << "EX";
+    }
+    else if (num == 4) {
+        std::cout << "MEM";
+    }
+    else if (num == 5) {
+        std::cout << "WB";
+    }
+    else if (num == 7) {
+        std::cout << "*";
+    }
+
+}
+
+
 //setters----------------------------------------------
-void Commands::setCommand(std::string command_){
+void Commands::setCommand(std::string command_) {
 	command = command_;
 }
-void Commands::setDependency(int dependency_){
+void Commands::setDependency(int dependency_) {
 	dependency = dependency_;
 }
-void Commands::setType(char type_){
+void Commands::setType(char type_) {
 	type = type_;
 }
 
-void Commands::setID(int id_){
+void Commands::setID(int id_) {
 	id = id_;
 }
 
-void Commands::addRegs(std::string reg){
+void Commands::addRegs(std::string reg) {
 	regs.push_back(reg);
 }
 
-void Commands::setDelay(int delay_){
+void Commands::setDelay(int delay_) {
 	delay = delay_;
 }
 
-void Commands::setCycle_line(int index, int val){
+void Commands::setCycle_line(int index, int val) {
 	cycle_line[index] =  val;
 }
 
-void Commands::setWholeCommand(std::string wholeCommand_){
+void Commands::setWholeCommand(std::string wholeCommand_) {
 	wholeCommand = wholeCommand_;
 }
 
-void Commands::setDone(bool done_){
+void Commands::setDone(bool done_) {
 	done = done_;
+}
+
+void Commands::setRegs(std::vector<std::string> regs_) {
+    regs = regs_;
 }

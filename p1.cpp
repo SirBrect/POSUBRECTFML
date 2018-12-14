@@ -6,9 +6,36 @@
 #include <string>
 #include <vector>
 
-// void controlHazardCheck(Commands cmmd, ) {
-	
-// }
+void branchAndDiscard(std::vector<Commands> &commandLines, int j, int i, int loopIndex, bool &controlHazard, int &id) {
+	// discard commands started (up to 3)
+	int discardCount = 0;
+	// i = cycleline
+
+	// std::cout << "I: " << i << " J: " << j << std::endl;
+	// increment next 3 commands to 7 (discard them)
+	for (unsigned int k = j+1; k < commandLines.size(); k++) {
+		if (discardCount == 3) {					// if discarded 3 commands, stop discarding
+			break;
+		}
+		commandLines[k].setCycle_line(i, 7);		//set cycleline to 7 (*)
+		commandLines[k].setDelay(discardCount + 2);
+		discardCount++;
+	}
+
+	controlHazard = false;
+
+	unsigned int ogSize = commandLines.size();
+
+	for (unsigned int m = loopIndex; m < ogSize; m++) {
+		Commands tempcmmd;
+		tempcmmd.setWholeCommand(commandLines[m].getWholeCommand()); 
+		tempcmmd.setCommand(commandLines[m].getCommand()); 	
+		tempcmmd.setRegs(commandLines[m].getRegs()); 			
+		tempcmmd.setID(id);
+		commandLines.push_back(tempcmmd); 
+		id++;
+	}
+}
 
 void nopInsert() {
 
@@ -31,10 +58,9 @@ int nopCheck(std::vector<Commands> &commandLines, int row, int cycle){//checks t
 	return nops;
 }
 
-void cycleIncrement(std::vector<Commands> &commandLines,bool forwarding , int row , int cycle){
+void cycleIncrement(std::vector<Commands> &commandLines, bool forwarding, int row, int cycle){
 	int intstore = 0;
-	if (row <= cycle) 
-	{
+	if (row <= cycle) {
 		//std::cout << "this is instore before: " << intstore << std::endl; //test print
 		intstore = commandLines[row].getCycle_line()[cycle];
 		if (cycle == 0 ) //if its the first index increment
@@ -43,13 +69,21 @@ void cycleIncrement(std::vector<Commands> &commandLines,bool forwarding , int ro
 		}
 		else if (commandLines[row].getDelay() > 0) //if the line has delays set the cycle equal to the one prevouse
 		{
-			intstore = commandLines[row].getCycle_line()[cycle-1]; 
+			if (commandLines[row].getCycle_line()[cycle] == 7) {
+				intstore = 7; 
+			}
+			else {
+				intstore = commandLines[row].getCycle_line()[cycle-1]; 
+			}
 			commandLines[row].setDelay((commandLines[row].getDelay() -1)); 
 		}
 		else if (commandLines[row].getCycle_line()[cycle-1] < 6) //else grab the one prev and increment it as one 
 		{
 			intstore = 1 + commandLines[row].getCycle_line()[cycle-1];
 		}
+		// else if (commandLines[row].getCycle_line()[cycle-1] == 7) {
+		// 	std::cout << "ASTERIKS!!!" << std::endl;
+		// }
 		else{ // this doesnt need to be here but watev
 			intstore = 6;
 		}
@@ -65,11 +99,13 @@ int main(int argc, char const *argv[])
 	std::vector<Commands> commandLines; //holds command objects for as many lines
 	bool forwarding = (*argv[1] == 'F'); //bool determinig forwording
 	std::string linebuff; 
-	int id = 0;
+	int id = 0, loopIndex;
 	unsigned int finished_cmmds = 0;
 	unsigned int i = 0,j = 0;
 	Registers regs;
 	int nops = 0;
+	bool controlHazard = false;
+	unsigned int icopy, jcopy;
 
 	//ERROR CHECKING----------------------------------------------------------------------
 	if (argc > 3){
@@ -83,34 +119,39 @@ int main(int argc, char const *argv[])
 
 	//FILE READING-------------------------------------------------------------------------
 	while(getline(mipscode,linebuff)) {
+		if (linebuff != "loop:") {
+			Commands commandline;
+			commandline.setWholeCommand(linebuff); // store whole command line for easy printing
 
-		Commands commandline;
-		commandline.setWholeCommand(linebuff); // store whole command line for easy printing
+			std::string delimiter = " ";
+			size_t pos = 0;
+			std::string token;
+			pos = linebuff.find(delimiter);
+			token = linebuff.substr(0, pos); 		//grab the command portion from read file
+			// std::cout << token << std::endl;		//assign here
+			linebuff.erase(0, pos + delimiter.length());
+			commandline.setCommand(token); 			//set command portion
 
-		std::string delimiter = " ";
-		size_t pos = 0;
-		std::string token;
-		pos = linebuff.find(delimiter);
-		token = linebuff.substr(0, pos); 		//grab the command portion from read file
-		// std::cout << token << std::endl;		//assign here
-		linebuff.erase(0, pos + delimiter.length());
-		commandline.setCommand(token); 			//set command portion
-
-		delimiter = ",";
-		if (token != "loop:") { //if command has registers add them to this register vector
-			while ((pos = linebuff.find(delimiter)) != std::string::npos) {
-		    	token = linebuff.substr(0, pos);
-		    	// std::cout << token << std::endl;	//assign here
-		    	linebuff.erase(0, pos + delimiter.length());
-		    	commandline.addRegs(token);			//add to commandlineobj reg storage
+			delimiter = ",";
+			if (token != "loop:") { //if command has registers add them to this register vector
+				while ((pos = linebuff.find(delimiter)) != std::string::npos) {
+					token = linebuff.substr(0, pos);
+					// std::cout << token << std::endl;	//assign here
+					linebuff.erase(0, pos + delimiter.length());
+					commandline.addRegs(token);			//add to commandlineobj reg storage
+				}
+				commandline.addRegs(linebuff);
+				// std::cout << linebuff << std::endl;
 			}
-			commandline.addRegs(linebuff);
-			// std::cout << linebuff << std::endl;
+
+			commandline.setID(id);
+			commandLines.push_back(commandline); //add to overall commandlines vector
+			id++;
+		}
+		else if (linebuff == "loop:") {
+			loopIndex = id;
 		}
 
-		commandline.setID(id);
-		commandLines.push_back(commandline); //add to overall commandlines vector
-		id++;
 	}
 
 
@@ -127,10 +168,6 @@ int main(int argc, char const *argv[])
 	// for (i = 0; i < commandLines.size(); ++i) {
 	// 	std::cout << commandLines[i].getWholeCommand() << std::endl;
 	// }
-
-	//ASSIGN DEPENDENCIES -------------------------------------------------------------------
-	//TO DO: read through vector of commands, assign dependencies
-	//TO DO: test print of dependencies "CMMD ID # is dependent on CMMD ID #"
 
 	//PROGRAM RUN --------------------------------------------------------------------------
 	std::cout << "START OF SIMULATION";
@@ -166,30 +203,53 @@ int main(int argc, char const *argv[])
 			}
 			//nops insert-----------------------------------------------------------------------------------------------------------
 
-			//incroment----------------------------------------------------------------------------------------------------------
+			//increment----------------------------------------------------------------------------------------------------------
 
 			if (commandLines[j].getCommand() != "loop:") {
 				cycleIncrement(commandLines,forwarding,j,i); //increment cycle by column
 			}
+
 			//printf command and cycle line
 			if (commandLines[j].getCycle_line()[i] != 0 && commandLines[j].getCommand() != "loop:") {
 				commandLines[j].print_line();	
 			}
+
 			// if command is an immediate, store digit in register
 			if (commandLines[j].getCycle_line()[i] == 5 && isdigit(commandLines[j].getRegs()[2][0])) {
 				regs.setRegValue(commandLines[j].getRegs()[0], std::stoi(commandLines[j].getRegs()[2]));
 
 			}
+
 			//if command is finished, add to number of finished commands
 			if (commandLines[j].getCycle_line()[i] == 5) {
 				finished_cmmds++;	
 			}
+
+			//CHECK FOR CONTROL HAZARD
+			//check if branch command at MEM stage, calculate if branch should be taken
 			if (commandLines[j].getCycle_line()[i] == 4 && (commandLines[j].getCommand() == "bne" || commandLines[j].getCommand() == "beq")) {
-				std::cout << "LOOP AT MEM STAGE" << std::endl;
+				//get values of first two registers & compare
+				//if equal and beq command
+				if (regs.getRegValue(commandLines[j].getRegs()[0]) == regs.getRegValue(commandLines[j].getRegs()[1]) && commandLines[j].getCommand() == "beq") {
+					controlHazard = true;
+					icopy = i; 
+					jcopy = j;
+
+				}
+				//if not equal and bne command
+				else if (regs.getRegValue(commandLines[j].getRegs()[0]) != regs.getRegValue(commandLines[j].getRegs()[1]) && commandLines[j].getCommand() == "bne") {
+					controlHazard = true;
+					icopy = i; 
+					jcopy = j;
+				}
 			}
 			// std::cout << "val check: " << commandLines[j].getCycle_line()[i] << std::endl;
 		}
-
+		// BRANCH SHOULD BE HERE
+		if (controlHazard) {
+			branchAndDiscard(commandLines, jcopy, icopy+1, loopIndex, controlHazard, id);
+			// std::cout << "OUTSIDE: " << commandLines[jcopy+1].getCycle_line()[icopy+1] << std::endl;
+		}
 		//prints register contents-------------------------------------------------------------------------------
 		regs.print_regs();
 	}

@@ -71,14 +71,25 @@ void Registers::print_regs() {
     for (int i = 0; i < 10; i++) {
         
         mult++;
-        if (mult%4 == 0) {
+        if (mult%4 == 0 || i == 9) {
             std::cout << std::setw(6) << t_regs[i] << treg_values[i] << std::endl;
         }
         else {
             std::cout << std::setw(6) << t_regs[i] << std::left << std::setw(14) << treg_values[i];
         }
     }
-    std::cout << std::endl;
+}
+
+int Registers::getRegValue(std::string reg) {
+    int index = reg[2] - '0';
+
+    if (reg[1] == 's') {
+        return sreg_values[index];
+    }
+    else if (reg[1] == 't') {
+        return treg_values[index];
+    }
+    return 0;
 }
 
 // updates given register with inputed value

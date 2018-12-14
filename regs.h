@@ -18,6 +18,9 @@ public:
     void print_regs();
 
     // ACCESSORS:
+    int getRegValue(std::string reg);
+
+    // SETTERS:
     void setRegValue(std::string rd, int input);
 
     // OTHER METHODS:

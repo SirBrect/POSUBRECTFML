@@ -19,6 +19,7 @@ public:
 	// PRINTING:
     void print_line();	
     void decoder(int num);
+    void lastDecoder(int num);
 
     // GETTERS (ACCESSORS):
     std::string getCommand() {return command;}
@@ -41,12 +42,7 @@ public:
   	void setCycle_line(int index, int val);
     void setWholeCommand(std::string wholeCommand_);
     void setDone(bool done);
- 
-
-
-    void Addkmer(std::string kmer, unsigned int genomeindex);
-
-
+    void setRegs(std::vector<std::string> regs_);
 
     // OTHER METHODS:
 	
