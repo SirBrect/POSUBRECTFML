@@ -199,10 +199,6 @@ int main(int argc, char const *argv[])
 	//incrementation
 	for (i = 0; i < 16; ++i) { //for the 16 cycles
 		if (commandLines[commandLines.size()-1].getDone()) {
-			for (unsigned int k = 0; k < commandLines.size(); ++k)
-			{
-				std::cout << "command: " << commandLines[k].getCommand() << " done?: " << commandLines[k].getDone() << std::endl;
-			}
 			break;
 		}
 		std::cout << "----------------------------------------------------------------------------------" << std::endl;
